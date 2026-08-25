@@ -30,6 +30,7 @@ float-site/
   export_data.m         pipeline .mat     ->  data.js
   export_coastline.m    m_map GSHHS       ->  coastline.js
   bundle_single_file.py index.html + data.js + PNGs  ->  ONE shareable .html
+  publish.py            mirror this folder into the git publish clone
   float_status.html     the single-file build (generated; safe to delete)
   README.md             this file
 ```
@@ -53,7 +54,13 @@ matlab -batch export_data
 Run them in that order — `export_data.m` builds the figure lists in `data.js` by scanning
 what `make_plots.py` actually produced, so the page can never point at a missing PNG.
 
-Then, if you want the one-file version to hand to someone:
+Then publish to the live site (see *Hosting* below):
+
+```bash
+python publish.py
+```
+
+Or, for a one-file version to hand to someone directly:
 
 ```bash
 python bundle_single_file.py
@@ -203,11 +210,55 @@ Rebuild it after every data refresh — it is a snapshot, not a live view.
 
 ### Or share one *link* instead
 
-The plain folder (`index.html` + `data.js` + `assets/`) is already a static site, so it
-can be dropped on any web host as-is. The most direct option here is **GitHub Pages** on
-the existing public sharing repo: commit the folder, turn Pages on, and the weekly
-refresh becomes "regenerate, commit, push" — everyone keeps the same URL and always sees
-current data, with no 13 MB attachment.
+The site is hosted — see *Hosting* below.
+
+## Hosting
+
+The site is published with **GitHub Pages** from a separate clone, so the working folder
+on the Desktop stays the place you experiment and only finished work is pushed:
+
+    working copy   Desktop\CLAUDE\Argo_float_data\float-site   <- edit + regenerate here
+    publish clone  Documents\git_repos\float-site               <- git repo, pushed to GitHub
+    live           https://bodil-bt.github.io/Danish_profiling_floats/
+
+Full weekly cycle:
+
+```bash
+python make_plots.py
+```
+
+```bash
+matlab -batch export_data
+```
+
+```bash
+python publish.py
+```
+
+then review the diff in GitHub Desktop and Commit + Push. The live site updates within
+about a minute.
+
+**Use `publish.py` rather than copying the folder by hand.** The per-profile figures carry
+the profile number and date in their *filename*
+(`2903997_profile_039_2026-08-24.png`), so every refresh writes a NEW name. A plain
+copy-over leaves the previous week's file behind, and the repo quietly fills with
+orphaned PNGs that nothing on the page references. `publish.py` mirrors instead: it
+copies what changed **and deletes what no longer exists**. It runs no git commands —
+nothing is committed or pushed until you do it.
+
+It leaves alone anything git ignores (`float_status.html`, `__pycache__`) and anything
+that belongs to the clone (`.git`, `.gitattributes`). Check first with:
+
+```bash
+python publish.py --dry-run
+```
+
+Two things to keep in mind about Pages: the site is **public** (a private repo does not
+give a private site outside Enterprise), and the repo grows by roughly **12 MB per
+refresh** — about 0.6 GB of git history a year, against GitHub's 1 GB recommendation. The
+`.gitignore` keeps the ~14 MB single-file build out of git for exactly that reason;
+attach it to a Release instead if you want to distribute it. Squashing history or
+publishing from a reset orphan branch are the options if the repo gets large.
 
 ## Dependencies
 
