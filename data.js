@@ -15,7 +15,7 @@
 //   graphs        [{label, src}, ...] figures for the fold-out
 //   notes         free text from floats_config.csv
 
-const floatUpdated = "2026-08-25 10:44";
+const floatUpdated = "2026-08-25 12:54";
 
 const floatData = [
   {
@@ -32,7 +32,7 @@ const floatData = [
     "location": "70.615° N, 18.317° W",
     "deployment_date": "2025-05-27",
     "last_surface": "2026-08-23 21:02",
-    "days_since": 1.6,
+    "days_since": 1.7,
     "next_surface": "2026-08-28 20:02",
     "next_surface_source": "nke cycle period",
     "n_profiles": 94,
@@ -337,7 +337,7 @@ const floatData = [
     "location": "67.417° N, 19.851° W",
     "deployment_date": "2025-02-10",
     "last_surface": "2026-08-20 19:29",
-    "days_since": 4.6,
+    "days_since": 4.7,
     "next_surface": "2026-08-25 18:29",
     "next_surface_source": "nke cycle period",
     "n_profiles": 114,
@@ -834,7 +834,7 @@ const floatData = [
     "location": "78.691° N, 11.147° W",
     "deployment_date": "2025-08-04",
     "last_surface": "2026-08-22 06:29",
-    "days_since": 3.2,
+    "days_since": 3.3,
     "next_surface": "2026-08-27 05:29",
     "next_surface_source": "nke cycle period",
     "n_profiles": 79,
@@ -1190,15 +1190,15 @@ const floatData = [
     "region": "greenland",
     "status": "active",
     "status_note": "",
-    "latitude": 75.6208,
-    "longitude": -7.488,
-    "location": "75.621° N, 7.488° W",
+    "latitude": 75.6893,
+    "longitude": -8.4851,
+    "location": "75.689° N, 8.485° W",
     "deployment_date": "2025-10-30",
-    "last_surface": "2026-08-19 15:58",
-    "days_since": 5.8,
-    "next_surface": "2026-08-24 14:58",
+    "last_surface": "2026-08-24 15:04",
+    "days_since": 0.9,
+    "next_surface": "2026-08-29 14:04",
     "next_surface_source": "nke cycle period",
-    "n_profiles": 59,
+    "n_profiles": 60,
     "track": [
       [
         81.3966,
@@ -1447,6 +1447,10 @@ const floatData = [
       [
         75.6208,
         -7.488
+      ],
+      [
+        75.6893,
+        -8.4851
       ]
     ],
     "trajectory": "assets/plots/7902329/7902329_map.png",
@@ -1458,6 +1462,10 @@ const floatData = [
       {
         "label": "Profile 069  (2026-08-19)",
         "src": "assets/plots/7902329/7902329_profile_069_2026-08-19.png"
+      },
+      {
+        "label": "Profile 070  (2026-08-24)",
+        "src": "assets/plots/7902329/7902329_profile_070_2026-08-24.png"
       }
     ],
     "notes": "ODEN2025 (North Pole deployment); pre-deployment Denmark test dropped via deploy_date"
@@ -1471,19 +1479,27 @@ const floatData = [
     "region": "greenland",
     "status": "active",
     "status_note": "",
-    "latitude": 77.3438,
-    "longitude": -70.4276,
-    "location": "77.344° N, 70.428° W",
+    "latitude": 77.3449,
+    "longitude": -70.47,
+    "location": "77.345° N, 70.470° W",
     "deployment_date": "2025-08-13",
-    "last_surface": "2026-08-20 09:27",
-    "days_since": 5.1,
-    "next_surface": "2026-08-25 08:27",
+    "last_surface": "2026-08-25 08:21",
+    "days_since": 0.2,
+    "next_surface": "2026-08-30 07:21",
     "next_surface_source": "nke cycle period",
-    "n_profiles": 55,
+    "n_profiles": 56,
     "track": [
       [
         77.3953,
         -68.8757
+      ],
+      [
+        77.3953,
+        -68.8757
+      ],
+      [
+        77.3951,
+        -68.8735
       ],
       [
         77.3951,
@@ -1494,8 +1510,20 @@ const floatData = [
         -68.9271
       ],
       [
+        77.3988,
+        -68.9271
+      ],
+      [
         77.4103,
         -68.9583
+      ],
+      [
+        77.4103,
+        -68.9583
+      ],
+      [
+        77.4149,
+        -68.9542
       ],
       [
         77.4149,
@@ -1506,8 +1534,20 @@ const floatData = [
         -68.9579
       ],
       [
+        77.422,
+        -68.9579
+      ],
+      [
         77.428,
         -68.9919
+      ],
+      [
+        77.428,
+        -68.9919
+      ],
+      [
+        77.4334,
+        -69.1104
       ],
       [
         77.4334,
@@ -1518,8 +1558,20 @@ const floatData = [
         -69.0924
       ],
       [
+        77.4289,
+        -69.0924
+      ],
+      [
         77.4294,
         -69.1312
+      ],
+      [
+        77.4294,
+        -69.1312
+      ],
+      [
+        77.4193,
+        -69.1687
       ],
       [
         77.4193,
@@ -1530,8 +1582,20 @@ const floatData = [
         -69.2384
       ],
       [
+        77.3994,
+        -69.2384
+      ],
+      [
         77.3971,
         -69.2391
+      ],
+      [
+        77.3971,
+        -69.2391
+      ],
+      [
+        77.3885,
+        -69.3023
       ],
       [
         77.3885,
@@ -1542,12 +1606,28 @@ const floatData = [
         -69.3554
       ],
       [
+        77.3769,
+        -69.3554
+      ],
+      [
+        77.3716,
+        -69.3747
+      ],
+      [
         77.3716,
         -69.3747
       ],
       [
         77.3623,
         -69.4219
+      ],
+      [
+        77.3623,
+        -69.4219
+      ],
+      [
+        77.351,
+        -69.4664
       ],
       [
         77.351,
@@ -1666,8 +1746,128 @@ const floatData = [
         -69.4905
       ],
       [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
+        77.3422,
+        -69.4905
+      ],
+      [
         77.3553,
         -70.3985
+      ],
+      [
+        77.3553,
+        -70.3985
+      ],
+      [
+        77.3423,
+        -70.4586
       ],
       [
         77.3423,
@@ -1678,8 +1878,20 @@ const floatData = [
         -70.424
       ],
       [
+        77.3371,
+        -70.424
+      ],
+      [
         77.3207,
         -70.4375
+      ],
+      [
+        77.3207,
+        -70.4375
+      ],
+      [
+        77.3211,
+        -70.3776
       ],
       [
         77.3211,
@@ -1690,8 +1902,20 @@ const floatData = [
         -70.418
       ],
       [
+        77.3212,
+        -70.418
+      ],
+      [
         77.3275,
         -70.3885
+      ],
+      [
+        77.3275,
+        -70.3885
+      ],
+      [
+        77.3307,
+        -70.3461
       ],
       [
         77.3307,
@@ -1702,6 +1926,14 @@ const floatData = [
         -70.3762
       ],
       [
+        77.3303,
+        -70.3762
+      ],
+      [
+        77.3378,
+        -70.3648
+      ],
+      [
         77.3378,
         -70.3648
       ],
@@ -1710,8 +1942,24 @@ const floatData = [
         -70.4058
       ],
       [
+        77.3411,
+        -70.4058
+      ],
+      [
         77.3438,
         -70.4276
+      ],
+      [
+        77.3438,
+        -70.4276
+      ],
+      [
+        77.3449,
+        -70.47
+      ],
+      [
+        77.3449,
+        -70.47
       ]
     ],
     "trajectory": "assets/plots/2903998/2903998_map.png",
@@ -1741,7 +1989,7 @@ const floatData = [
     "location": "74.373° N, 20.359° W",
     "deployment_date": "2025-08-17",
     "last_surface": "2026-08-24 08:23",
-    "days_since": 1.1,
+    "days_since": 1.2,
     "next_surface": "2026-09-03 03:23",
     "next_surface_source": "nke cycle period",
     "n_profiles": 38,
@@ -1938,7 +2186,7 @@ const floatData = [
     "location": "56.328° N, 19.316° E",
     "deployment_date": "2024-11-25",
     "last_surface": "2026-08-22 23:41",
-    "days_since": 2.5,
+    "days_since": 2.6,
     "next_surface": "2026-08-27 18:41",
     "next_surface_source": "nke cycle period",
     "n_profiles": 137,
@@ -2523,7 +2771,7 @@ const floatData = [
     "location": "55.201° N, 9.752° E",
     "deployment_date": "2026-06-23",
     "last_surface": "2026-08-22 00:43",
-    "days_since": 3.4,
+    "days_since": 3.5,
     "next_surface": "2026-08-26 23:53",
     "next_surface_source": "median cycle interval",
     "n_profiles": 13,
@@ -2608,7 +2856,7 @@ const floatData = [
     "location": "54.987° N, 10.228° E",
     "deployment_date": "2026-06-24",
     "last_surface": "2026-08-19 01:55",
-    "days_since": 6.4,
+    "days_since": 6.5,
     "next_surface": "2026-08-24 01:50",
     "next_surface_source": "median cycle interval",
     "n_profiles": 12,
@@ -2689,7 +2937,7 @@ const floatData = [
     "location": "55.136° N, 14.512° E",
     "deployment_date": "2023-11-07",
     "last_surface": "2025-07-06 10:58",
-    "days_since": 415,
+    "days_since": 415.1,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 190,
