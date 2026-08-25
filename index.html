@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danish profiling floats — Status</title>
+
+<!--
+  STATIC TEMPLATE — this file does not change between data updates.
+  Everything on the page is rendered from data.js (const floatData = [...]),
+  which is regenerated weekly by export_data.m together with the PNGs in
+  assets/plots/ (make_plots.py). Opening this file directly from disk works:
+  there is no fetch() and no server needed. Only the map tiles and the Leaflet
+  library need internet.
+-->
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<style>
+  :root{
+    --ink:#12242e; --ink-soft:#4a6270; --line:#dde5ea; --bg:#f5f8fa;
+    --card:#ffffff; --sea:#0d5c7a; --sea-soft:#e6f1f6;
+    --ok:#1a7f4b; --ok-soft:#e4f3ea; --off:#8b959d; --off-soft:#eef1f3;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  .wrap{max-width:1160px; margin:0 auto; padding:0 20px 72px}
+  header{background:var(--sea); color:#fff; padding:36px 0 30px; margin-bottom:34px}
+  header .wrap{padding-bottom:0}
+  header h1{margin:0 0 6px; font-size:1.85rem; letter-spacing:-.01em}
+  header p{margin:0; opacity:.85; max-width:65ch}
+  .stamp{margin-top:14px; font-size:.82rem; opacity:.7}
+  h2{font-size:1.2rem; margin:38px 0 12px; padding-bottom:8px; border-bottom:2px solid var(--line)}
+  section > p{max-width:72ch; color:var(--ink-soft)}
+
+  /* ---- summary table ---- */
+  .tablewrap{overflow-x:auto; background:var(--card); border:1px solid var(--line); border-radius:10px}
+  table{border-collapse:collapse; width:100%; font-size:.9rem}
+  th,td{padding:10px 14px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap}
+  th{background:var(--sea-soft); font-weight:600; color:var(--ink)}
+  tbody tr{cursor:pointer}
+  tbody tr:hover{background:var(--sea-soft)}
+  tbody tr:last-child td{border-bottom:none}
+  td.num{text-align:right; font-variant-numeric:tabular-nums}
+  .name{font-weight:600}
+  .badge{display:inline-block; padding:2px 10px; border-radius:999px; font-size:.78rem; font-weight:600}
+  .badge.active{background:var(--ok-soft); color:var(--ok)}
+  .badge.inactive{background:var(--off-soft); color:var(--off)}
+  .muted{color:var(--ink-soft)}
+
+  /* ---- maps ---- */
+  .maps{display:grid; grid-template-columns:1fr 1fr; gap:20px}
+  @media(max-width:860px){.maps{grid-template-columns:1fr}}
+  .mapcard{background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden}
+  .mapcard h3{margin:0; padding:12px 16px; font-size:.95rem; border-bottom:1px solid var(--line)}
+  .mapcard h3 small{font-weight:400; color:var(--ink-soft)}
+  .map{height:440px}
+  /* The polar map draws its own land (no tiles), so its background IS the sea. */
+  #map-greenland{background:#dbe9f2}
+  .legend{display:flex; gap:18px; padding:10px 16px; font-size:.82rem; color:var(--ink-soft); border-top:1px solid var(--line)}
+  .dot{display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:6px; border:2px solid #fff; box-shadow:0 0 0 1px rgba(0,0,0,.25)}
+  .dot.active{background:var(--ok)} .dot.inactive{background:var(--off)}
+  .maperr{padding:26px 16px; color:var(--ink-soft); font-size:.9rem}
+
+  /* ---- accordions ---- */
+  details{background:var(--card); border:1px solid var(--line); border-radius:10px; margin-bottom:10px}
+  details[open]{box-shadow:0 1px 4px rgba(18,36,46,.07)}
+  summary{
+    cursor:pointer; padding:14px 18px; font-weight:600; list-style:none;
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"▸"; color:var(--sea); font-size:.9rem; transition:transform .15s}
+  details[open] summary::before{transform:rotate(90deg)}
+  summary .wmo{font-weight:400; color:var(--ink-soft); font-size:.88rem}
+  summary .spacer{flex:1}
+  .body{padding:0 18px 20px; border-top:1px solid var(--line)}
+  .meta{display:flex; flex-wrap:wrap; gap:6px 28px; padding:14px 0 4px; font-size:.87rem; color:var(--ink-soft)}
+  .meta b{color:var(--ink); font-weight:600}
+  .note{font-size:.87rem; color:var(--ink-soft); font-style:italic; margin:6px 0 0}
+  figure{margin:20px 0 0}
+  figure img{width:100%; height:auto; display:block; border:1px solid var(--line); border-radius:8px; background:#fff; cursor:zoom-in}
+  .lightbox{position:fixed; inset:0; z-index:9999; background:rgba(8,20,26,.88); display:none;
+            align-items:center; justify-content:center; padding:24px; cursor:zoom-out}
+  .lightbox.on{display:flex}
+  .lightbox img{max-width:100%; max-height:100%; border-radius:6px; background:#fff}
+  .lightbox .hint{position:absolute; top:14px; right:20px; color:#fff; opacity:.75; font-size:.85rem}
+  figcaption{font-size:.83rem; color:var(--ink-soft); margin-top:6px}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:20px}
+  @media(max-width:860px){.grid2{grid-template-columns:1fr}}
+  .empty{padding:16px 0; color:var(--ink-soft); font-size:.9rem}
+  :target > summary{background:var(--sea-soft)}
+  footer{max-width:1160px; margin:0 auto; padding:0 20px 40px; color:var(--ink-soft); font-size:.83rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Danish profiling floats — status</h1>
+    <p>Live status of the profiling floats operated and monitored by DTU Aqua, in Greenland
+       waters and in Danish/Baltic waters.</p>
+    <div class="stamp" id="stamp"></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section id="intro">
+    <h2>About</h2>
+    <p>
+      DTU (Aqua) is currently operating a fleet of profiling oceanographic floats. These
+      contribute to global climate monitoring (part of the global Argo program), water
+      quality monitoring and experimental/research data collection. The floats are
+      designed to drift with ocean currents, parking at depth between cycles and rising to
+      the surface every few days to transmit a profile of the water column. Here we adapt
+      the performance by parking on the seafloor so they perform as virtual moorings.
+      Sensors
+      on the floats vary and measure a range of parameters including temperature, salinity,
+      oxygen, phytoplankton fluorescence, particle scattering, organic matter fluorescence,
+      and spectral light intensity. This page summarises where our floats are, how many
+      profiles they have returned, and when each is next expected at the surface.
+    </p>
+    <p>
+      The equipment has been financed by the national infrastructure project GIOS
+      (Greenland Integrated Observatory), Strategic Funds from DTU (RSO), Integrated Marine
+      Monitoring project by Agency for Green Transition and Aquatic Environment, and Danish
+      Defence and Logistics.
+    </p>
+    <p>
+      The table below lists every float; the maps show their most recent position and the
+      track they have drifted along. Click a marker or a table row to jump to that float,
+      and expand a float to see its trajectory and measurement figures. Everything here is
+      regenerated from the processing pipeline. For more information contact Colin Stedmon,
+      Patrizio Mariani, or Bodil Toftegaard at DTU Aqua.
+    </p>
+  </section>
+
+  <section id="summary">
+    <h2>Fleet summary</h2>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Float</th><th>WMO</th><th>Location</th><th>Deployed</th>
+            <th>Next surfacing</th><th class="num">Profiles</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="summary-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="maps">
+    <h2>Where the floats are</h2>
+    <div class="maps">
+      <div class="mapcard" id="card-greenland">
+        <h3>Greenland <small id="count-greenland"></small></h3>
+        <div class="map" id="map-greenland"></div>
+        <div class="legend">
+          <span><i class="dot active"></i>active</span>
+          <span><i class="dot inactive"></i>inactive</span>
+          <span class="muted">line = drift track</span>
+        </div>
+      </div>
+      <div class="mapcard" id="card-denmark">
+        <h3>Denmark &amp; the Baltic Sea <small id="count-denmark"></small></h3>
+        <div class="map" id="map-denmark"></div>
+        <div class="legend">
+          <span><i class="dot active"></i>active</span>
+          <span><i class="dot inactive"></i>inactive</span>
+          <span class="muted">line = drift track</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="floats">
+    <h2>Individual floats</h2>
+    <p>Expand a float to see its trajectory and the latest measurement figures.</p>
+    <div id="float-list"></div>
+  </section>
+
+</div>
+
+<footer>
+  Figures and data are produced by the DTU Aqua float processing pipeline and refreshed
+  weekly. Positions are the float's last transmitted GPS fix; profile counts are ascent
+  profiles only. Base map &copy; OpenStreetMap contributors.
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<!-- polar stereographic support for the Greenland map (Mercator is useless at 80 N) -->
+<script src="https://unpkg.com/proj4@2.11.0/dist/proj4.js" crossorigin=""></script>
+<script src="https://unpkg.com/proj4leaflet@1.0.2/src/proj4leaflet.js" crossorigin=""></script>
+<script src="coastline.js"></script>
+<script src="data.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var floats = (typeof floatData !== "undefined" && Array.isArray(floatData)) ? floatData : [];
+  var COLOR = { active: "#1a7f4b", inactive: "#8b959d" };
+  var REGIONS = [
+    { key: "greenland", el: "map-greenland", card: "card-greenland",
+      count: "count-greenland", projection: "polar" },
+    { key: "denmark",   el: "map-denmark",   card: "card-denmark",
+      count: "count-denmark",   projection: "mercator" }
+  ];
+
+  // ---------- small helpers ------------------------------------------------
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined && text !== null) n.textContent = text;
+    return n;
+  }
+  function dash(v) { return (v === undefined || v === null || v === "") ? "—" : v; }
+  function anchorId(f) { return "float-" + f.id; }
+
+  // ---------- 1. update stamp ---------------------------------------------
+  var stamp = document.getElementById("stamp");
+  if (typeof floatUpdated !== "undefined" && floatUpdated) {
+    stamp.textContent = floats.length + " floats · data updated " + floatUpdated;
+  } else {
+    stamp.textContent = floats.length + " floats";
+  }
+
+  // ---------- 2. summary table --------------------------------------------
+  var tbody = document.getElementById("summary-body");
+  floats.forEach(function (f) {
+    var tr = el("tr");
+    tr.title = "Show " + f.name;
+
+    var tdName = el("td");
+    tdName.appendChild(el("span", "name", f.name));
+    tr.appendChild(tdName);
+
+    tr.appendChild(el("td", "muted", dash(f.wmo)));
+    tr.appendChild(el("td", null, dash(f.location)));
+    tr.appendChild(el("td", null, dash(f.deployment_date)));
+    tr.appendChild(el("td", null, dash(f.next_surface)));
+    tr.appendChild(el("td", "num", f.n_profiles));
+
+    var tdStatus = el("td");
+    var badge = el("span", "badge " + f.status, f.status);
+    if (f.status_note) badge.title = f.status_note;
+    tdStatus.appendChild(badge);
+    tr.appendChild(tdStatus);
+
+    tr.addEventListener("click", function () { reveal(f); });
+    tbody.appendChild(tr);
+  });
+
+  // ---------- 3. per-float accordions --------------------------------------
+  var list = document.getElementById("float-list");
+  var panels = {};
+
+  floats.forEach(function (f) {
+    var d = el("details");
+    d.id = anchorId(f);
+
+    var s = el("summary");
+    s.appendChild(el("span", null, f.name));
+    s.appendChild(el("span", "wmo", f.wmo ? "WMO " + f.wmo : f.id));
+    s.appendChild(el("span", "spacer"));
+    s.appendChild(el("span", "badge " + f.status, f.status));
+    d.appendChild(s);
+
+    var body = el("div", "body");
+
+    var meta = el("div", "meta");
+    [["Location", f.location],
+     ["Deployed", f.deployment_date],
+     ["Last surfacing", f.last_surface],
+     ["Next surfacing", dash(f.next_surface)],
+     ["Ascent profiles", f.n_profiles],
+     ["Platform", [f.platform, f.sensors].filter(Boolean).join(" · ")]
+    ].forEach(function (kv) {
+      if (kv[1] === undefined || kv[1] === null || kv[1] === "") return;
+      var span = el("span");
+      span.appendChild(el("b", null, kv[0] + ": "));
+      span.appendChild(document.createTextNode(kv[1]));
+      meta.appendChild(span);
+    });
+    body.appendChild(meta);
+
+    if (f.status_note) body.appendChild(el("p", "note", f.status_note));
+    if (f.notes)       body.appendChild(el("p", "note", f.notes));
+
+    // Images are given data-src and only loaded the first time the float is
+    // expanded, so the page stays light with a hundred figures on it.
+    var figures = [];
+    if (f.trajectory) {
+      figures.push({ label: "Trajectory", src: f.trajectory, full: true });
+    }
+    (f.graphs || []).forEach(function (g) { figures.push({ label: g.label, src: g.src }); });
+
+    if (!figures.length) {
+      body.appendChild(el("p", "empty", "No figures available for this float."));
+    } else {
+      var wide = figures.filter(function (g) { return g.full; });
+      var rest = figures.filter(function (g) { return !g.full; });
+      wide.forEach(function (g) { body.appendChild(figureFor(g)); });
+      if (rest.length) {
+        var grid = el("div", "grid2");
+        rest.forEach(function (g) { grid.appendChild(figureFor(g)); });
+        body.appendChild(grid);
+      }
+    }
+
+    d.appendChild(body);
+    d.addEventListener("toggle", function () { if (d.open) loadImages(d); });
+    list.appendChild(d);
+    panels[f.id] = d;
+  });
+
+  function figureFor(g) {
+    var fig = el("figure");
+    var img = el("img");
+    img.setAttribute("data-src", g.src);
+    img.alt = g.label;
+    img.loading = "lazy";
+    img.title = "Click to enlarge";
+    // Click-to-zoom rather than a link: in the single-file build the sources are
+    // data: URIs, which browsers refuse to open as a top-level navigation.
+    img.addEventListener("click", function () { showLightbox(img.src, g.label); });
+    fig.appendChild(img);
+    fig.appendChild(el("figcaption", null, g.label));
+    return fig;
+  }
+
+  var lightbox = el("div", "lightbox");
+  var lightboxImg = el("img");
+  lightbox.appendChild(lightboxImg);
+  lightbox.appendChild(el("span", "hint", "click anywhere to close"));
+  lightbox.addEventListener("click", function () { lightbox.classList.remove("on"); });
+  document.body.appendChild(lightbox);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") lightbox.classList.remove("on");
+  });
+
+  function showLightbox(src, alt) {
+    if (!src) return;
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || "";
+    lightbox.classList.add("on");
+  }
+
+  function loadImages(container) {
+    container.querySelectorAll("img[data-src]").forEach(function (img) {
+      img.src = img.getAttribute("data-src");
+      img.removeAttribute("data-src");
+    });
+  }
+
+  function reveal(f) {
+    var d = panels[f.id];
+    if (!d) return;
+    d.open = true;
+    loadImages(d);
+    d.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // ---------- 4. maps -------------------------------------------------------
+  // The Denmark/Baltic map is an ordinary Web Mercator OpenStreetMap. The Greenland
+  // map uses EPSG:3413 (NSIDC north polar stereographic, true at 70 N, central
+  // meridian 45 W — it runs straight down Greenland), because Mercator stretches
+  // everything above ~70 N beyond recognition and cannot show the pole at all.
+  //
+  // A projection change forces a basemap change: OSM tiles are published ONLY in
+  // Web Mercator. The polar basemap is therefore NASA EOSDIS GIBS, which serves
+  // EPSG:3413 tiles publicly with no API key.
+  var _crs3413 = null;
+  function polarCRS() {
+    if (_crs3413) return _crs3413;
+    if (typeof L.Proj === "undefined" || typeof proj4 === "undefined") return null;
+    _crs3413 = new L.Proj.CRS(
+      "EPSG:3413",
+      "+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +k=1 +x_0=0 +y_0=0 " +
+      "+datum=WGS84 +units=m +no_defs",
+      {
+        origin: [-4194304, 4194304],
+        bounds: L.bounds([-4194304, -4194304], [4194304, 4194304]),
+        resolutions: [8192, 4096, 2048, 1024, 512, 256, 128, 64]
+      });
+    return _crs3413;
+  }
+
+  function makeMercatorMap(id) {
+    var map = L.map(id, { scrollWheelZoom: false });
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    return map;
+  }
+
+  function makePolarMap(id) {
+    var map = L.map(id, { crs: polarCRS(), scrollWheelZoom: false, maxZoom: 7,
+                          attributionControl: true });
+    // No tiles: the land is drawn as vector polygons from coastline.js, reprojected
+    // by the SAME code that places the float markers. That is why this map cannot
+    // drift out of register with the floats, and why it needs no tile server —
+    // which also means it still works inside the offline single-file build.
+    drawGraticule(map);
+    landPolygons.forEach(function (ring) {
+      L.polygon(ring, {
+        stroke: true, color: "#8fa6b4", weight: 0.7,
+        fill: true, fillColor: "#eef1ec", fillOpacity: 1, interactive: false
+      }).addTo(map);
+    });
+    map.attributionControl.addAttribution(
+      "Coastline: GSHHS · polar stereographic (EPSG:3413)");
+    return map;
+  }
+
+  function drawGraticule(map) {
+    var style = { color: "#a9c2d1", weight: 0.6, opacity: .9, interactive: false,
+                  dashArray: "3,3" };
+    var lat, lon, pts, i;
+    for (lat = 50; lat <= 80; lat += 10) {              // parallels = circles here
+      pts = [];
+      for (i = -180; i <= 180; i += 2) pts.push([lat, i]);
+      L.polyline(pts, style).addTo(map);
+    }
+    for (lon = -180; lon < 180; lon += 30) {            // meridians = radial spokes
+      pts = [];
+      for (i = 50; i <= 89; i += 1) pts.push([i, lon]);
+      L.polyline(pts, style).addTo(map);
+    }
+  }
+
+  REGIONS.forEach(function (r) {
+    var here = floats.filter(function (f) { return f.region === r.key; });
+    var countEl = document.getElementById(r.count);
+    var card = document.getElementById(r.card);
+
+    if (!here.length) { card.style.display = "none"; return; }
+    countEl.textContent = "· " + here.length + " float" + (here.length === 1 ? "" : "s");
+
+    var host = document.getElementById(r.el);
+    if (typeof L === "undefined") {
+      host.className = "maperr";
+      host.textContent = "The interactive map could not load — it needs internet access "
+        + "for the mapping library and the map tiles.";
+      return;
+    }
+
+    var canPolar = r.projection === "polar" && polarCRS()
+                   && typeof landPolygons !== "undefined" && landPolygons.length;
+    var map = canPolar ? makePolarMap(r.el) : makeMercatorMap(r.el);
+
+    var bounds = [];
+    here.forEach(function (f) {
+      var color = COLOR[f.status] || COLOR.inactive;
+
+      if (f.track && f.track.length > 1) {
+        L.polyline(f.track, { color: color, weight: 2, opacity: .55 }).addTo(map);
+        f.track.forEach(function (p) { bounds.push(p); });
+      }
+
+      var m = L.circleMarker([f.latitude, f.longitude], {
+        radius: 8, color: "#fff", weight: 2,
+        fillColor: color, fillOpacity: 1
+      }).addTo(map);
+      bounds.push([f.latitude, f.longitude]);
+
+      var pop = el("div");
+      pop.appendChild(el("strong", null, f.name));
+      pop.appendChild(el("br"));
+      pop.appendChild(document.createTextNode(
+        (f.wmo ? "WMO " + f.wmo + " · " : "") + f.n_profiles + " profiles"));
+      pop.appendChild(el("br"));
+      pop.appendChild(document.createTextNode("Last surfacing: " + f.last_surface));
+      pop.appendChild(el("br"));
+      var link = el("a", null, "Show figures ↓");
+      link.href = "#" + anchorId(f);
+      link.addEventListener("click", function (ev) { ev.preventDefault(); reveal(f); });
+      pop.appendChild(link);
+      m.bindPopup(pop);
+
+      m.bindTooltip(f.name, { direction: "top", offset: [0, -8] });
+      m.on("click", function () { reveal(f); });
+    });
+
+    if (bounds.length) {
+      map.fitBounds(bounds, { padding: [28, 28] });
+    } else {
+      map.setView([70, -20], 3);
+    }
+  });
+
+  // ---------- 5. deep links (#float-<id>) ----------------------------------
+  if (location.hash) {
+    var target = document.getElementById(location.hash.slice(1));
+    if (target && target.tagName === "DETAILS") {
+      target.open = true;
+      loadImages(target);
+    }
+  }
+})();
+</script>
+</body>
+</html>

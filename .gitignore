@@ -1,0 +1,9 @@
+# The single-file build is a generated artefact and ~14 MB EVERY time it is
+# rebuilt, so committing it weekly would more than double the repo's growth.
+# Regenerate it locally (python bundle_single_file.py) and, if you want to hand
+# it out, attach it to a GitHub Release instead of committing it.
+float_status.html
+
+# python bits
+__pycache__/
+*.pyc
