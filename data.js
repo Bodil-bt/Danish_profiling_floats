@@ -15,7 +15,7 @@
 //   graphs        [{label, src}, ...] figures for the fold-out
 //   notes         free text from floats_config.csv
 
-const floatUpdated = "2026-08-25 12:54";
+const floatUpdated = "2026-08-25 13:26";
 
 const floatData = [
   {
@@ -1971,6 +1971,10 @@ const floatData = [
       {
         "label": "Profile 076  (2026-08-20)",
         "src": "assets/plots/2903998/2903998_profile_076_2026-08-20.png"
+      },
+      {
+        "label": "Profile 077  (2026-08-25)",
+        "src": "assets/plots/2903998/2903998_profile_077_2026-08-25.png"
       }
     ],
     "notes": ""
@@ -2851,15 +2855,15 @@ const floatData = [
     "region": "denmark",
     "status": "active",
     "status_note": "",
-    "latitude": 54.9867,
-    "longitude": 10.2279,
-    "location": "54.987° N, 10.228° E",
+    "latitude": 54.9863,
+    "longitude": 10.2286,
+    "location": "54.986° N, 10.229° E",
     "deployment_date": "2026-06-24",
-    "last_surface": "2026-08-19 01:55",
-    "days_since": 6.5,
-    "next_surface": "2026-08-24 01:50",
+    "last_surface": "2026-08-24 02:34",
+    "days_since": 1.5,
+    "next_surface": "2026-08-29 02:36",
     "next_surface_source": "median cycle interval",
-    "n_profiles": 12,
+    "n_profiles": 13,
     "track": [
       [
         54.9864,
@@ -2908,6 +2912,10 @@ const floatData = [
       [
         54.9867,
         10.2279
+      ],
+      [
+        54.9863,
+        10.2286
       ]
     ],
     "trajectory": "assets/plots/Sgav_provor/Sgav_provor_map.png",
@@ -2919,6 +2927,10 @@ const floatData = [
       {
         "label": "Profile 012  (2026-08-19)",
         "src": "assets/plots/Sgav_provor/Sgav_provor_profile_012_2026-08-19.png"
+      },
+      {
+        "label": "Profile 013  (2026-08-24)",
+        "src": "assets/plots/Sgav_provor/Sgav_provor_profile_013_2026-08-24.png"
       }
     ],
     "notes": "BGC+RAMSES+SUNA; needs external SGAV_provor tree beside pipeline (FTP+APMTDecoder); set active=true to re-run"
