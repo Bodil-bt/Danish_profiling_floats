@@ -35,10 +35,10 @@ import re
 import sys
 
 SITE = pathlib.Path(__file__).resolve().parent
-ASSET_RE = re.compile(r'"(assets/plots/[^"]+?\.png)"')
+ASSET_RE = re.compile(r'"(assets/[^"]+?\.(?:png|jpe?g))"', re.I)
 
 
-def encode_png(path: pathlib.Path, max_width: int, stats: dict) -> str:
+def encode_image(path: pathlib.Path, max_width: int, stats: dict) -> str:
     raw = path.read_bytes()
     if max_width:
         try:
@@ -53,7 +53,11 @@ def encode_png(path: pathlib.Path, max_width: int, stats: dict) -> str:
                 h = round(im.height * max_width / im.width)
                 im = im.resize((max_width, h), Image.LANCZOS)
                 buf = io.BytesIO()
-                im.save(buf, format="PNG", optimize=True)
+                if path.suffix.lower() in (".jpg", ".jpeg"):
+                    im.convert("RGB").save(buf, format="JPEG", quality=82,
+                                           optimize=True, progressive=True)
+                else:
+                    im.save(buf, format="PNG", optimize=True)
                 # Downscaling line art through LANCZOS can produce a BIGGER png than
                 # the original, so keep whichever is fewer bytes -- the point of the
                 # flag is a smaller file, not a smaller number.
@@ -62,7 +66,8 @@ def encode_png(path: pathlib.Path, max_width: int, stats: dict) -> str:
                     stats["resized"] += 1
                 else:
                     stats["kept"] += 1
-    return "data:image/png;base64," + base64.b64encode(raw).decode("ascii")
+    mime = "image/jpeg" if path.suffix.lower() in (".jpg", ".jpeg") else "image/png"
+    return "data:" + mime + ";base64," + base64.b64encode(raw).decode("ascii")
 
 
 def main() -> int:
@@ -98,7 +103,7 @@ def main() -> int:
                 missing.append(rel)
                 cache[rel] = ""
             else:
-                cache[rel] = encode_png(p, args.max_width, stats)
+                cache[rel] = encode_image(p, args.max_width, stats)
                 embedded[0] += 1
         return '"' + cache[rel] + '"'
 
@@ -119,6 +124,10 @@ def main() -> int:
 
     html = inline(html, "coastline.js", coast)
     html = inline(html, "data.js", data)
+
+    # data.js paths are handled above; the page also references images directly
+    # (the intro photos), so sweep the document too.
+    html = ASSET_RE.sub(sub, html)
 
     html = html.replace(
         "<!DOCTYPE html>",

@@ -91,6 +91,23 @@
   .grid2{display:grid; grid-template-columns:1fr 1fr; gap:20px}
   @media(max-width:860px){.grid2{grid-template-columns:1fr}}
   .empty{padding:16px 0; color:var(--ink-soft); font-size:.9rem}
+  /* ---- about: text beside the deck photo, then a wide banner ---- */
+  .about{display:grid; grid-template-columns:minmax(0,1.95fr) minmax(0,1fr);
+         gap:28px; align-items:start}
+  @media(max-width:860px){.about{grid-template-columns:1fr}}
+  /* the text is inside .about now, so the 72ch cap on `section > p` no longer
+     applies -- the column itself keeps the line length readable */
+  .about-text p{color:var(--ink-soft); margin:0 0 16px}
+  .about-text p:last-child{margin-bottom:0}
+  .about figure, .banner{margin:0}
+  .about figure img{width:100%; height:auto; max-height:560px; object-fit:cover;
+                    display:block; border:1px solid var(--line);
+                    border-radius:10px; cursor:zoom-in}
+  .banner{margin-top:24px}
+  /* height:auto, NOT a fixed height with object-fit:cover -- the crop already
+     frames horizon-to-float, and cover would trim the horizon back off */
+  .banner img{width:100%; height:auto; display:block;
+              border:1px solid var(--line); border-radius:10px; cursor:zoom-in}
   :target > summary{background:var(--sea-soft)}
   footer{max-width:1160px; margin:0 auto; padding:0 20px 40px; color:var(--ink-soft); font-size:.83rem}
 </style>
@@ -110,36 +127,53 @@
 
   <section id="intro">
     <h2>About</h2>
-    <p>
-      DTU (Aqua) is currently operating a fleet of profiling oceanographic floats. These
-      contribute to global climate monitoring (part of the global Argo program,
-      <a href="https://argo.ucsd.edu/" target="_blank" rel="noopener">https://argo.ucsd.edu/</a>),
-      water quality monitoring and experimental/research data collection. The floats are
-      designed to drift with ocean currents, parking at depth between cycles and rising to
-      the surface every few days to transmit a profile of the water column. Here we adapt
-      the performance by parking on the seafloor so they perform as virtual moorings.
-      Sensors on the floats vary and measure a range of parameters including temperature,
-      salinity, oxygen, phytoplankton fluorescence, particle scattering, organic matter
-      fluorescence, and spectral light intensity. This page summarises where our floats
-      are, how many profiles they have returned, and when each is next expected at the
-      surface. The floats with a WMO number are registered as part of the Argo program and
-      the data can be readily accessed via the Global Data Access Centers,
-      <a href="https://argo.ucsd.edu/data/" target="_blank" rel="noopener">https://argo.ucsd.edu/data/</a>.
-      The other float deployments are experimental and the data is available on request.
-    </p>
-    <p>
-      The equipment has been financed by the national infrastructure project GIOS
-      (Greenland Integrated Observatory), Strategic Funds from DTU (RSO), Integrated Marine
-      Monitoring project by Agency for Green Transition and Aquatic Environment, and Danish
-      Defence and Logistics.
-    </p>
-    <p>
-      The table below lists every float; the maps show their most recent position and the
-      track they have drifted along. Click a marker or a table row to jump to that float,
-      and expand a float to see its trajectory and measurement figures. Everything here is
-      regenerated from the processing pipeline. For more information contact Colin Stedmon,
-      Patrizio Mariani, or Bodil Toftegaard at DTU Aqua.
-    </p>
+    <div class="about">
+      <div class="about-text">
+        <p>
+          DTU (Aqua) is currently operating a fleet of profiling oceanographic floats. These
+          contribute to global climate monitoring (part of the global Argo program,
+          <a href="https://argo.ucsd.edu/" target="_blank" rel="noopener">https://argo.ucsd.edu/</a>),
+          water quality monitoring and experimental/research data collection. The floats are
+          designed to drift with ocean currents, parking at depth between cycles and rising to
+          the surface every few days to transmit a profile of the water column. Here we adapt
+          the performance by parking on the seafloor so they perform as virtual moorings.
+          Sensors on the floats vary and measure a range of parameters including temperature,
+          salinity, oxygen, phytoplankton fluorescence, particle scattering, organic matter
+          fluorescence, and spectral light intensity. This page summarises where our floats
+          are, how many profiles they have returned, and when each is next expected at the
+          surface. The floats with a WMO number are registered as part of the Argo program and
+          the data can be readily accessed via the Global Data Access Centers,
+          <a href="https://argo.ucsd.edu/data/" target="_blank" rel="noopener">https://argo.ucsd.edu/data/</a>.
+          The other float deployments are experimental and the data is available on request.
+        </p>
+        <p>
+          The equipment has been financed by the national infrastructure project GIOS
+          (Greenland Integrated Observatory), Strategic Funds from DTU (RSO), Integrated Marine
+          Monitoring project by Agency for Green Transition and Aquatic Environment, and Danish
+          Defence and Logistics.
+        </p>
+        <p>
+          The table below lists every float; the maps show their most recent position and the
+          track they have drifted along. Click a marker or a table row to jump to that float,
+          and expand a float to see its trajectory and measurement figures. Everything here is
+          regenerated from the processing pipeline. For more information contact Colin Stedmon,
+          Patrizio Mariani, or Bodil Toftegaard at DTU Aqua.
+        </p>
+      </div>
+      <figure>
+        <img src="assets/photos/floats_on_deck.jpg" data-zoom loading="lazy"
+             alt="Two profiling floats lying on the deck of a boat before deployment">
+        <figcaption>Floats on deck, ready for deployment.</figcaption>
+      </figure>
+    </div>
+    <figure class="banner">
+      <!-- the banner shows a crop so the float is actually legible; clicking opens
+           the full frame, horizon and all -->
+      <img src="assets/photos/float_at_surface_wide.jpg" data-zoom loading="lazy"
+           data-full="assets/photos/float_at_surface.jpg"
+           alt="A profiling float at the sea surface with its antenna above the water">
+      <figcaption>At the surface between cycles, transmitting its profile.</figcaption>
+    </figure>
   </section>
 
   <section id="summary">
@@ -344,6 +378,14 @@
   document.body.appendChild(lightbox);
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") lightbox.classList.remove("on");
+  });
+
+  // the static photos in the intro use the same lightbox as the figures
+  document.querySelectorAll("img[data-zoom]").forEach(function (img) {
+    img.addEventListener("click", function () {
+      // data-full lets a cropped thumbnail open its uncropped original
+      showLightbox(img.getAttribute("data-full") || img.src, img.alt);
+    });
   });
 
   function showLightbox(src, alt) {

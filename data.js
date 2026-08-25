@@ -15,7 +15,7 @@
 //   graphs        [{label, src}, ...] figures for the fold-out
 //   notes         free text from floats_config.csv
 
-const floatUpdated = "2026-08-25 13:26";
+const floatUpdated = "2026-08-25 15:59";
 
 const floatData = [
   {
@@ -32,7 +32,7 @@ const floatData = [
     "location": "70.615° N, 18.317° W",
     "deployment_date": "2025-05-27",
     "last_surface": "2026-08-23 21:02",
-    "days_since": 1.7,
+    "days_since": 1.8,
     "next_surface": "2026-08-28 20:02",
     "next_surface_source": "nke cycle period",
     "n_profiles": 94,
@@ -337,7 +337,7 @@ const floatData = [
     "location": "67.417° N, 19.851° W",
     "deployment_date": "2025-02-10",
     "last_surface": "2026-08-20 19:29",
-    "days_since": 4.7,
+    "days_since": 4.9,
     "next_surface": "2026-08-25 18:29",
     "next_surface_source": "nke cycle period",
     "n_profiles": 114,
@@ -834,7 +834,7 @@ const floatData = [
     "location": "78.691° N, 11.147° W",
     "deployment_date": "2025-08-04",
     "last_surface": "2026-08-22 06:29",
-    "days_since": 3.3,
+    "days_since": 3.4,
     "next_surface": "2026-08-27 05:29",
     "next_surface_source": "nke cycle period",
     "n_profiles": 79,
@@ -1195,7 +1195,7 @@ const floatData = [
     "location": "75.689° N, 8.485° W",
     "deployment_date": "2025-10-30",
     "last_surface": "2026-08-24 15:04",
-    "days_since": 0.9,
+    "days_since": 1,
     "next_surface": "2026-08-29 14:04",
     "next_surface_source": "nke cycle period",
     "n_profiles": 60,
@@ -1460,10 +1460,6 @@ const floatData = [
         "src": "assets/plots/7902329/7902329_sections.png"
       },
       {
-        "label": "Profile 069  (2026-08-19)",
-        "src": "assets/plots/7902329/7902329_profile_069_2026-08-19.png"
-      },
-      {
         "label": "Profile 070  (2026-08-24)",
         "src": "assets/plots/7902329/7902329_profile_070_2026-08-24.png"
       }
@@ -1484,7 +1480,7 @@ const floatData = [
     "location": "77.345° N, 70.470° W",
     "deployment_date": "2025-08-13",
     "last_surface": "2026-08-25 08:21",
-    "days_since": 0.2,
+    "days_since": 0.3,
     "next_surface": "2026-08-30 07:21",
     "next_surface_source": "nke cycle period",
     "n_profiles": 56,
@@ -1969,10 +1965,6 @@ const floatData = [
         "src": "assets/plots/2903998/2903998_sections.png"
       },
       {
-        "label": "Profile 076  (2026-08-20)",
-        "src": "assets/plots/2903998/2903998_profile_076_2026-08-20.png"
-      },
-      {
         "label": "Profile 077  (2026-08-25)",
         "src": "assets/plots/2903998/2903998_profile_077_2026-08-25.png"
       }
@@ -1993,7 +1985,7 @@ const floatData = [
     "location": "74.373° N, 20.359° W",
     "deployment_date": "2025-08-17",
     "last_surface": "2026-08-24 08:23",
-    "days_since": 1.2,
+    "days_since": 1.3,
     "next_surface": "2026-09-03 03:23",
     "next_surface_source": "nke cycle period",
     "n_profiles": 38,
@@ -2190,7 +2182,7 @@ const floatData = [
     "location": "56.328° N, 19.316° E",
     "deployment_date": "2024-11-25",
     "last_surface": "2026-08-22 23:41",
-    "days_since": 2.6,
+    "days_since": 2.7,
     "next_surface": "2026-08-27 18:41",
     "next_surface_source": "nke cycle period",
     "n_profiles": 137,
@@ -2775,7 +2767,7 @@ const floatData = [
     "location": "55.201° N, 9.752° E",
     "deployment_date": "2026-06-23",
     "last_surface": "2026-08-22 00:43",
-    "days_since": 3.5,
+    "days_since": 3.6,
     "next_surface": "2026-08-26 23:53",
     "next_surface_source": "median cycle interval",
     "n_profiles": 13,
@@ -2860,7 +2852,7 @@ const floatData = [
     "location": "54.986° N, 10.229° E",
     "deployment_date": "2026-06-24",
     "last_surface": "2026-08-24 02:34",
-    "days_since": 1.5,
+    "days_since": 1.6,
     "next_surface": "2026-08-29 02:36",
     "next_surface_source": "median cycle interval",
     "n_profiles": 13,
@@ -2925,10 +2917,6 @@ const floatData = [
         "src": "assets/plots/Sgav_provor/Sgav_provor_sections.png"
       },
       {
-        "label": "Profile 012  (2026-08-19)",
-        "src": "assets/plots/Sgav_provor/Sgav_provor_profile_012_2026-08-19.png"
-      },
-      {
         "label": "Profile 013  (2026-08-24)",
         "src": "assets/plots/Sgav_provor/Sgav_provor_profile_013_2026-08-24.png"
       }
@@ -2949,7 +2937,7 @@ const floatData = [
     "location": "55.136° N, 14.512° E",
     "deployment_date": "2023-11-07",
     "last_surface": "2025-07-06 10:58",
-    "days_since": 415.1,
+    "days_since": 415.2,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 190,

@@ -138,7 +138,7 @@ def copy_png(src: Path, out_dir: Path, prefix: str = "") -> list[Path]:
     dst = out_dir / f"{prefix}{src.name}"
     guard_output(dst)
     if dst.exists() and dst.stat().st_mtime >= src.stat().st_mtime:
-        return [dst]  # already up to date
+        return [dst]  # already up to date (still counts as kept, not pruned)
     shutil.copyfile(src, dst)
     return [dst]
 
@@ -182,9 +182,24 @@ def main() -> int:
             else:
                 written += copy_png(src, out_dir, prefix)
 
+        # Prune superseded figures. The per-profile figure carries the profile
+        # number and date in its FILENAME, so when a float surfaces again the new
+        # figure lands beside the old one instead of replacing it -- and
+        # export_data.m, which lists whatever is in this folder, would then show
+        # two "latest" profiles. Anything not written this run no longer belongs.
+        keep = {w.resolve() for w in written}
+        removed = 0
+        for old_file in out_dir.iterdir():
+            if old_file.is_file() and old_file.resolve() not in keep:
+                guard_output(old_file)
+                old_file.unlink()
+                removed += 1
+
         total_src += len(sources)
         total_out += len(written)
         extra = f" ({n_pdf} converted from PDF)" if n_pdf else ""
+        if removed:
+            extra += f" (-{removed} superseded)"
         print(f"{fdir.name}: {len(written)} PNG in assets/plots/{fdir.name}/{extra}")
 
     print(f"\ndone: {total_src} source figure(s) -> {total_out} PNG under {OUT_ROOT}")

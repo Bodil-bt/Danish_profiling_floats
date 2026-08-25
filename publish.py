@@ -20,6 +20,7 @@ GitHub Desktop and publish when happy.
 Usage:
     python publish.py --dry-run      # show what would change (do this first)
     python publish.py
+    python publish.py --force        # discard clone-side edits (not recoverable)
     python publish.py --repo D:\somewhere\else
 """
 
@@ -77,6 +78,8 @@ def main() -> int:
     ap.add_argument("--repo", type=Path, default=DEFAULT_REPO,
                     help=f"publish clone (default: {DEFAULT_REPO})")
     ap.add_argument("--dry-run", action="store_true", help="report only, change nothing")
+    ap.add_argument("--force", action="store_true",
+                    help="overwrite clone-side edits (they are NOT recoverable)")
     args = ap.parse_args()
 
     repo: Path = args.repo.expanduser().resolve()
@@ -95,6 +98,24 @@ def main() -> int:
     common  = sorted(src & dst)
     changed = [r for r in common
                if not filecmp.cmp(SITE / r, repo / r, shallow=False)]
+
+    # Refuse to silently destroy work edited in the clone. If a destination file
+    # differs AND is newer than the source, someone edited it there -- overwriting
+    # it loses that edit for good when the file is untracked by git.
+    edited = [r for r in changed
+              if (repo / r).stat().st_mtime > (SITE / r).stat().st_mtime + 1]
+    if edited and not args.force:
+        err = sys.stderr
+        print("STOP: these files were edited in the publish clone, not in "
+              "the working folder:", file=err)
+        for r in edited:
+            print("    " + r.as_posix(), file=err)
+        print("", file=err)
+        print("Mirroring would overwrite them and the change would be lost.", file=err)
+        print("Copy the newer version back into the working folder first:", file=err)
+        print("    " + str(SITE), file=err)
+        print("then re-run. To discard those edits instead, re-run with --force.", file=err)
+        return 2
 
     tag = "would " if args.dry_run else ""
     for r in new:     print(f"  + {tag}add     {r.as_posix()}")
