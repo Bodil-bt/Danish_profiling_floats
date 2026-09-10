@@ -15,7 +15,7 @@
 //   graphs        [{label, src}, ...] figures for the fold-out
 //   notes         free text from floats_config.csv
 
-const floatUpdated = "2026-09-10 10:43";
+const floatUpdated = "2026-09-10 13:19";
 
 const floatData = [
   {
@@ -32,7 +32,7 @@ const floatData = [
     "location": "70.203° N, 18.093° W",
     "deployment_date": "2025-05-27",
     "last_surface": "2026-09-07 18:02",
-    "days_since": 2.7,
+    "days_since": 2.8,
     "next_surface": "2026-09-12 17:02",
     "next_surface_source": "nke cycle period",
     "n_profiles": 97,
@@ -461,7 +461,7 @@ const floatData = [
     "location": "67.505° N, 19.866° W",
     "deployment_date": "2025-02-10",
     "last_surface": "2026-09-09 15:27",
-    "days_since": 0.8,
+    "days_since": 0.9,
     "next_surface": "2026-09-14 14:27",
     "next_surface_source": "nke cycle period",
     "n_profiles": 118,
@@ -974,7 +974,7 @@ const floatData = [
     "location": "78.691° N, 11.255° W",
     "deployment_date": "2025-08-04",
     "last_surface": "2026-09-01 04:35",
-    "days_since": 9.3,
+    "days_since": 9.4,
     "next_surface": "2026-09-06 03:35",
     "next_surface_source": "nke cycle period",
     "n_profiles": 81,
@@ -1343,7 +1343,7 @@ const floatData = [
     "location": "74.466° N, 13.062° W",
     "deployment_date": "2025-10-30",
     "last_surface": "2026-09-08 12:08",
-    "days_since": 1.9,
+    "days_since": 2,
     "next_surface": "2026-09-13 11:08",
     "next_surface_source": "nke cycle period",
     "n_profiles": 63,
@@ -1640,7 +1640,7 @@ const floatData = [
     "location": "77.352° N, 70.532° W",
     "deployment_date": "2025-08-13",
     "last_surface": "2026-09-09 05:26",
-    "days_since": 1.2,
+    "days_since": 1.3,
     "next_surface": "2026-09-14 04:26",
     "next_surface_source": "nke cycle period",
     "n_profiles": 59,
@@ -1921,7 +1921,7 @@ const floatData = [
     "location": "74.367° N, 20.356° W",
     "deployment_date": "2025-08-17",
     "last_surface": "2026-09-03 03:26",
-    "days_since": 7.3,
+    "days_since": 7.4,
     "next_surface": "2026-09-12 22:26",
     "next_surface_source": "nke cycle period",
     "n_profiles": 39,
@@ -2122,7 +2122,7 @@ const floatData = [
     "location": "56.321° N, 19.351° E",
     "deployment_date": "2024-11-25",
     "last_surface": "2026-09-06 08:51",
-    "days_since": 4.1,
+    "days_since": 4.2,
     "next_surface": "2026-09-11 03:51",
     "next_surface_source": "nke cycle period",
     "n_profiles": 140,
@@ -2719,7 +2719,7 @@ const floatData = [
     "location": "55.201° N, 9.753° E",
     "deployment_date": "2026-06-23",
     "last_surface": "2026-09-05 23:05",
-    "days_since": 4.5,
+    "days_since": 4.6,
     "next_surface": "2026-09-10 22:15",
     "next_surface_source": "median cycle interval",
     "n_profiles": 16,
@@ -2816,7 +2816,7 @@ const floatData = [
     "location": "54.987° N, 10.228° E",
     "deployment_date": "2026-06-24",
     "last_surface": "2026-09-08 01:59",
-    "days_since": 2.4,
+    "days_since": 2.5,
     "next_surface": "2026-09-13 02:01",
     "next_surface_source": "median cycle interval",
     "n_profiles": 16,
@@ -2913,7 +2913,7 @@ const floatData = [
     "location": "55.136° N, 14.512° E",
     "deployment_date": "2023-11-07",
     "last_surface": "2025-07-06 10:58",
-    "days_since": 431,
+    "days_since": 431.1,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 190,

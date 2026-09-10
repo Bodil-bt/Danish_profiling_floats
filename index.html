@@ -362,6 +362,17 @@
     img.alt = g.label;
     img.loading = "lazy";
     img.title = "Click to enlarge";
+    // A figure can 404 for ~10 minutes after a data push: GitHub Pages caches
+    // data.js for max-age=600, so a browser may still ask for the PREVIOUS
+    // profile figure, which the refresh has already pruned. Say so plainly
+    // instead of showing a broken-image icon.
+    img.addEventListener("error", function () {
+      img.hidden = true;
+      if (fig.querySelector(".empty")) return;
+      fig.insertBefore(el("p", "empty", g.label +
+        " — figure not available yet. The page was just updated; reload in a minute."),
+        fig.firstChild);
+    });
     // Click-to-zoom rather than a link: in the single-file build the sources are
     // data: URIs, which browsers refuse to open as a top-level navigation.
     img.addEventListener("click", function () { showLightbox(img.src, g.label); });
