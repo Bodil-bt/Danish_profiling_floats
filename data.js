@@ -15,7 +15,7 @@
 //   graphs        [{label, src}, ...] figures for the fold-out
 //   notes         free text from floats_config.csv
 
-const floatUpdated = "2026-09-03 15:15";
+const floatUpdated = "2026-09-10 10:18";
 
 const floatData = [
   {
@@ -32,7 +32,7 @@ const floatData = [
     "location": "70.432° N, 18.524° W",
     "deployment_date": "2025-05-27",
     "last_surface": "2026-09-02 19:05",
-    "days_since": 0.8,
+    "days_since": 7.6,
     "next_surface": "2026-09-07 18:05",
     "next_surface_source": "nke cycle period",
     "n_profiles": 96,
@@ -337,7 +337,7 @@ const floatData = [
     "location": "67.456° N, 19.840° W",
     "deployment_date": "2025-02-10",
     "last_surface": "2026-08-30 17:23",
-    "days_since": 3.9,
+    "days_since": 10.7,
     "next_surface": "2026-09-04 16:23",
     "next_surface_source": "nke cycle period",
     "n_profiles": 116,
@@ -842,7 +842,7 @@ const floatData = [
     "location": "78.691° N, 11.255° W",
     "deployment_date": "2025-08-04",
     "last_surface": "2026-09-01 04:35",
-    "days_since": 2.4,
+    "days_since": 9.2,
     "next_surface": "2026-09-06 03:35",
     "next_surface_source": "nke cycle period",
     "n_profiles": 81,
@@ -1211,7 +1211,7 @@ const floatData = [
     "location": "74.826° N, 12.020° W",
     "deployment_date": "2025-10-30",
     "last_surface": "2026-09-03 12:51",
-    "days_since": 0.1,
+    "days_since": 6.9,
     "next_surface": "2026-09-08 11:51",
     "next_surface_source": "nke cycle period",
     "n_profiles": 62,
@@ -1504,7 +1504,7 @@ const floatData = [
     "location": "77.352° N, 70.470° W",
     "deployment_date": "2025-08-13",
     "last_surface": "2026-08-30 07:24",
-    "days_since": 4.3,
+    "days_since": 11.1,
     "next_surface": "2026-09-04 06:24",
     "next_surface_source": "nke cycle period",
     "n_profiles": 57,
@@ -1777,7 +1777,7 @@ const floatData = [
     "location": "74.367° N, 20.356° W",
     "deployment_date": "2025-08-17",
     "last_surface": "2026-09-03 03:26",
-    "days_since": 0.5,
+    "days_since": 7.3,
     "next_surface": "2026-09-12 22:26",
     "next_surface_source": "nke cycle period",
     "n_profiles": 39,
@@ -1978,7 +1978,7 @@ const floatData = [
     "location": "56.321° N, 19.323° E",
     "deployment_date": "2024-11-25",
     "last_surface": "2026-09-01 13:43",
-    "days_since": 2.1,
+    "days_since": 8.9,
     "next_surface": "2026-09-06 08:43",
     "next_surface_source": "nke cycle period",
     "n_profiles": 139,
@@ -2571,7 +2571,7 @@ const floatData = [
     "location": "55.201° N, 9.753° E",
     "deployment_date": "2026-06-23",
     "last_surface": "2026-08-31 23:11",
-    "days_since": 2.7,
+    "days_since": 9.5,
     "next_surface": "2026-09-05 22:21",
     "next_surface_source": "median cycle interval",
     "n_profiles": 15,
@@ -2659,15 +2659,15 @@ const floatData = [
     "region": "denmark",
     "status": "active",
     "status_note": "",
-    "latitude": 54.9866,
-    "longitude": 10.2289,
-    "location": "54.987° N, 10.229° E",
+    "latitude": 54.9867,
+    "longitude": 10.2279,
+    "location": "54.987° N, 10.228° E",
     "deployment_date": "2026-06-24",
-    "last_surface": "2026-09-03 02:44",
-    "days_since": 0.5,
-    "next_surface": "2026-09-08 02:47",
+    "last_surface": "2026-09-08 01:59",
+    "days_since": 2.3,
+    "next_surface": "2026-09-13 02:01",
     "next_surface_source": "median cycle interval",
-    "n_profiles": 15,
+    "n_profiles": 16,
     "track": [
       [
         54.9864,
@@ -2728,6 +2728,10 @@ const floatData = [
       [
         54.9866,
         10.2289
+      ],
+      [
+        54.9867,
+        10.2279
       ]
     ],
     "trajectory": "assets/plots/Sgav_provor/Sgav_provor_map.png",
@@ -2737,8 +2741,8 @@ const floatData = [
         "src": "assets/plots/Sgav_provor/Sgav_provor_sections.png"
       },
       {
-        "label": "Profile 015  (2026-09-03)",
-        "src": "assets/plots/Sgav_provor/Sgav_provor_profile_015_2026-09-03.png"
+        "label": "Profile 016  (2026-09-08)",
+        "src": "assets/plots/Sgav_provor/Sgav_provor_profile_016_2026-09-08.png"
       }
     ],
     "notes": "BGC+RAMSES+SUNA; needs external SGAV_provor tree beside pipeline (FTP+APMTDecoder); set active=true to re-run"
@@ -2751,13 +2755,13 @@ const floatData = [
     "sensors": "bgc",
     "region": "denmark",
     "status": "inactive",
-    "status_note": "no transmission for 424 days — no next surfacing predicted",
+    "status_note": "no transmission for 431 days — no next surfacing predicted",
     "latitude": 55.1358,
     "longitude": 14.5121,
     "location": "55.136° N, 14.512° E",
     "deployment_date": "2023-11-07",
     "last_surface": "2025-07-06 10:58",
-    "days_since": 424.2,
+    "days_since": 431,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 190,
