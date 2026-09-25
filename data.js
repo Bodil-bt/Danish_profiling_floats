@@ -15,7 +15,7 @@
 //   graphs        [{label, src}, ...] figures for the fold-out
 //   notes         free text from floats_config.csv
 
-const floatUpdated = "2026-09-25 14:02";
+const floatUpdated = "2026-09-25 14:11";
 
 const floatData = [
   {
@@ -27,15 +27,15 @@ const floatData = [
     "region": "greenland",
     "status": "active",
     "status_note": "",
-    "latitude": 70.0422,
-    "longitude": -18.438,
-    "location": "70.042° N, 18.438° W",
+    "latitude": 69.9829,
+    "longitude": -18.4608,
+    "location": "69.983° N, 18.461° W",
     "deployment_date": "2025-05-27",
-    "last_surface": "2026-09-17 14:12",
-    "days_since": 8,
-    "next_surface": "2026-09-22 13:08",
-    "next_surface_source": "median cycle interval",
-    "n_profiles": 99,
+    "last_surface": "2026-09-22 15:10",
+    "days_since": 3,
+    "next_surface": "2026-09-27 14:10",
+    "next_surface_source": "nke cycle period",
+    "n_profiles": 100,
     "track": [
       [
         71.7159,
@@ -440,6 +440,10 @@ const floatData = [
       [
         70.0422,
         -18.438
+      ],
+      [
+        69.9829,
+        -18.4608
       ]
     ],
     "trajectory": "assets/plots/3902677/3902677_map.png",
@@ -449,8 +453,8 @@ const floatData = [
         "src": "assets/plots/3902677/3902677_sections.png"
       },
       {
-        "label": "Profile 099  (2026-09-17)",
-        "src": "assets/plots/3902677/3902677_profile_099_2026-09-17.png"
+        "label": "Profile 100  (2026-09-22)",
+        "src": "assets/plots/3902677/3902677_profile_100_2026-09-22.png"
       }
     ],
     "notes": "sheet lists SBD+GDAC"
@@ -2170,7 +2174,7 @@ const floatData = [
     "location": "56.325° N, 19.386° E",
     "deployment_date": "2024-11-25",
     "last_surface": "2026-09-20 17:39",
-    "days_since": 4.8,
+    "days_since": 4.9,
     "next_surface": "2026-09-25 12:39",
     "next_surface_source": "nke cycle period",
     "n_profiles": 143,
