@@ -2,7 +2,10 @@ function export_data(varargin)
 %EXPORT_DATA  Build float-site/data.js from the pipeline's saved float datasets.
 %
 %   export_data()                  % all floats found under pipeline/data
-%   export_data('stale_days', 60)  % recency cut-off for the active/inactive flag
+%   export_data('stale_days', 60)  % non-polar float silent longer -> inactive (default 45)
+%   export_data('ice_days', 20)    % polar float silent longer -> under ice (default 15)
+%   export_data('ice_max_days', Inf) % polar float silent longer -> inactive (default 365;
+%                                    % Inf = a silent polar float stays "under ice")
 %   export_data('track_max', 300)  % max track points written per float
 %
 % READ-ONLY with respect to ../pipeline: this function only LOADS
@@ -66,7 +69,7 @@ end
 
 % =========================================================================
 function opt = parse_args(args)
-opt = struct('stale_days', 45, 'track_max', 300);
+opt = struct('stale_days', 45, 'ice_days', 15, 'ice_max_days', 365, 'track_max', 300);
 if mod(numel(args), 2) ~= 0
     error('export_data:args', 'Arguments must be name/value pairs.');
 end
@@ -74,6 +77,8 @@ for k = 1:2:numel(args)
     name = lower(string(args{k}));
     switch name
         case "stale_days", opt.stale_days = double(args{k+1});
+        case "ice_days",     opt.ice_days     = double(args{k+1});
+        case "ice_max_days", opt.ice_max_days = double(args{k+1});
         case "track_max",  opt.track_max  = double(args{k+1});
         otherwise, error('export_data:args', 'Unknown option "%s".', name);
     end
@@ -145,14 +150,26 @@ days_since = days(datetime('now') - last_t);
 
 % ---- region + status ----------------------------------------------------
 region = region_of(lat(end), lon(end), row);
-if days_since > opt.stale_days
+polar  = strcmp(region, 'greenland');
+% Polar floats get their own, shorter quiet threshold (ice_days): going silent
+% there usually means sea ice, and should show promptly. Elsewhere, stale_days.
+if (polar && days_since <= opt.ice_days) || (~polar && days_since <= opt.stale_days)
+    status = 'active';
+    status_note = '';
+elseif polar && days_since <= opt.ice_max_days
+    % A polar float that goes quiet is normally under sea ice: it cannot reach
+    % the surface to get a GPS fix or transmit, and reports again once the ice
+    % clears. Its cycle-period "next surfacing" is meaningless until then.
+    status = 'under_ice';
+    status_note = sprintf(['no transmission for %d days — presumed under sea ' ...
+                           'ice; it will report again when it can surface'], ...
+                          round(days_since));
+    ns = '';  ns_src = '';
+else
     status = 'inactive';
     status_note = sprintf('no transmission for %d days', round(days_since));
     ns = '';  ns_src = '';      % a "next surfacing" for a float that stopped
     status_note = [status_note, ' — no next surfacing predicted'];
-else
-    status = 'active';
-    status_note = '';
 end
 
 % ---- figures (scan what make_plots.py actually produced) ----------------
@@ -461,8 +478,9 @@ L(end+1) = "//";
 L(end+1) = "// Each entry:";
 L(end+1) = "//   id, wmo, name, platform, sensors   identity (id = pipeline/data folder)";
 L(end+1) = "//   region        'greenland' | 'denmark'   -> which map the marker goes on";
-L(end+1) = "//   status        'active' | 'inactive'     -> marker colour + table badge";
-L(end+1) = "//   status_note   why it is inactive ('' when active)";
+L(end+1) = "//   status        'active' | 'under_ice' | 'inactive' -> marker colour + badge";
+L(end+1) = "//                 (under_ice = a polar/greenland float that has gone quiet)";
+L(end+1) = "//   status_note   why it is not active ('' when active)";
 L(end+1) = "//   latitude, longitude, location          latest fix";
 L(end+1) = "//   deployment_date, last_surface, days_since, next_surface";
 L(end+1) = "//   next_surface_source  how next_surface was predicted";

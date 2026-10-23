@@ -93,7 +93,14 @@ Per float, `export_data.m` reads `pipeline/data/<id>/float_<id>.mat` and
   platforms, last surfacing plus the median interval of the last ten cycles. The field
   records which of the two was used, and is left blank for inactive floats.
 - **profiles** — ascent profiles only (distinct cycles at `Stage == 590`).
-- **status** — `active` if the float transmitted within `stale_days`, else `inactive`.
+- **status** — depends on how long since the last transmission, and on the region:
+  - **Polar** floats (region `greenland`): `active` up to `ice_days` (**15**); then
+    `under_ice`, shown as "under ice" — it normally cannot surface to transmit until the
+    ice clears, so its next-surfacing prediction is blanked; after `ice_max_days`
+    (**365**) it is presumed lost and becomes `inactive`.
+  - **All other** floats: `active` up to `stale_days` (**45**), then `inactive`.
+
+  All three are options, e.g. `export_data('ice_days', 20, 'ice_max_days', Inf)`.
   This is deliberately derived from the data, not from the config's `active` column:
   that column controls whether the pipeline *processes* a float, which is not the same
   as whether the float is alive.
@@ -158,8 +165,8 @@ const floatData = [
     platform:             "arvor",             // arvor | pfv2 | provor
     sensors:              "core",              // core | core_o2 | bgc
     region:               "greenland",         // greenland | denmark  -> which map
-    status:               "active",            // active | inactive    -> marker colour
-    status_note:          "",                  // why it is inactive ("" when active)
+    status:               "active",            // active | under_ice | inactive -> colour
+    status_note:          "",                  // why it is not active ("" when active)
     latitude:             70.6154,
     longitude:            -18.3173,
     location:             "70.615° N, 18.317° W",

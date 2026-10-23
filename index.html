@@ -48,6 +48,7 @@
   .badge{display:inline-block; padding:2px 10px; border-radius:999px; font-size:.78rem; font-weight:600}
   .badge.active{background:var(--ok-soft); color:var(--ok)}
   .badge.inactive{background:var(--off-soft); color:var(--off)}
+  .badge.under_ice{background:#e1eef8; color:#2a6fa8}
   .muted{color:var(--ink-soft)}
 
   /* ---- maps ---- */
@@ -62,6 +63,7 @@
   .legend{display:flex; gap:18px; padding:10px 16px; font-size:.82rem; color:var(--ink-soft); border-top:1px solid var(--line)}
   .dot{display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:6px; border:2px solid #fff; box-shadow:0 0 0 1px rgba(0,0,0,.25)}
   .dot.active{background:var(--ok)} .dot.inactive{background:var(--off)}
+  .dot.under_ice{background:#2a6fa8}
   .maperr{padding:26px 16px; color:var(--ink-soft); font-size:.9rem}
 
   /* ---- accordions ---- */
@@ -199,6 +201,7 @@
         <div class="map" id="map-greenland"></div>
         <div class="legend">
           <span><i class="dot active"></i>active</span>
+          <span><i class="dot under_ice"></i>under ice</span>
           <span><i class="dot inactive"></i>inactive</span>
           <span class="muted">line = drift track</span>
         </div>
@@ -240,7 +243,10 @@
   "use strict";
 
   var floats = (typeof floatData !== "undefined" && Array.isArray(floatData)) ? floatData : [];
-  var COLOR = { active: "#1a7f4b", inactive: "#8b959d" };
+  var COLOR = { active: "#1a7f4b", under_ice: "#2a6fa8", inactive: "#8b959d" };
+  // data.js uses machine ids; this is what the reader sees
+  var STATUS_LABEL = { active: "active", under_ice: "under ice", inactive: "inactive" };
+  function statusLabel(s) { return STATUS_LABEL[s] || s; }
   var REGIONS = [
     { key: "greenland", el: "map-greenland", card: "card-greenland",
       count: "count-greenland", projection: "polar" },
@@ -283,7 +289,7 @@
     tr.appendChild(el("td", "num", f.n_profiles));
 
     var tdStatus = el("td");
-    var badge = el("span", "badge " + f.status, f.status);
+    var badge = el("span", "badge " + f.status, statusLabel(f.status));
     if (f.status_note) badge.title = f.status_note;
     tdStatus.appendChild(badge);
     tr.appendChild(tdStatus);
@@ -304,7 +310,7 @@
     s.appendChild(el("span", null, f.name));
     s.appendChild(el("span", "wmo", f.wmo ? "WMO " + f.wmo : f.id));
     s.appendChild(el("span", "spacer"));
-    s.appendChild(el("span", "badge " + f.status, f.status));
+    s.appendChild(el("span", "badge " + f.status, statusLabel(f.status)));
     d.appendChild(s);
 
     var body = el("div", "body");

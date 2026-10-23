@@ -4,8 +4,9 @@
 // Each entry:
 //   id, wmo, name, platform, sensors   identity (id = pipeline/data folder)
 //   region        'greenland' | 'denmark'   -> which map the marker goes on
-//   status        'active' | 'inactive'     -> marker colour + table badge
-//   status_note   why it is inactive ('' when active)
+//   status        'active' | 'under_ice' | 'inactive' -> marker colour + badge
+//                 (under_ice = a polar/greenland float that has gone quiet)
+//   status_note   why it is not active ('' when active)
 //   latitude, longitude, location          latest fix
 //   deployment_date, last_surface, days_since, next_surface
 //   next_surface_source  how next_surface was predicted
@@ -15,7 +16,7 @@
 //   graphs        [{label, src}, ...] figures for the fold-out
 //   notes         free text from floats_config.csv
 
-const floatUpdated = "2026-10-23 16:07";
+const floatUpdated = "2026-10-23 16:29";
 
 const floatData = [
   {
@@ -497,7 +498,7 @@ const floatData = [
     "location": "67.514° N, 20.090° W",
     "deployment_date": "2025-02-10",
     "last_surface": "2026-10-19 08:02",
-    "days_since": 4.3,
+    "days_since": 4.4,
     "next_surface": "2026-10-24 07:02",
     "next_surface_source": "nke cycle period",
     "n_profiles": 126,
@@ -1042,7 +1043,7 @@ const floatData = [
     "location": "71.678° N, 17.945° W",
     "deployment_date": "2025-10-30",
     "last_surface": "2026-10-23 03:09",
-    "days_since": 0.5,
+    "days_since": 0.6,
     "next_surface": "2026-10-28 02:09",
     "next_surface_source": "nke cycle period",
     "n_profiles": 72,
@@ -1898,8 +1899,8 @@ const floatData = [
     "platform": "arvor",
     "sensors": "core",
     "region": "greenland",
-    "status": "inactive",
-    "status_note": "no transmission for 52 days — no next surfacing predicted",
+    "status": "under_ice",
+    "status_note": "no transmission for 52 days — presumed under sea ice; it will report again when it can surface",
     "latitude": 78.6913,
     "longitude": -11.2546,
     "location": "78.691° N, 11.255° W",
