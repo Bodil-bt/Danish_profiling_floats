@@ -16,7 +16,7 @@
 //   graphs        [{label, src}, ...] figures for the fold-out
 //   notes         free text from floats_config.csv
 
-const floatUpdated = "2026-11-11 09:43";
+const floatUpdated = "2026-11-17 08:58";
 
 const floatData = [
   {
@@ -28,15 +28,15 @@ const floatData = [
     "region": "greenland",
     "status": "active",
     "status_note": "",
-    "latitude": 69.4886,
-    "longitude": -18.9649,
-    "location": "69.489° N, 18.965° W",
+    "latitude": 69.3409,
+    "longitude": -19.3024,
+    "location": "69.341° N, 19.302° W",
     "deployment_date": "2025-05-27",
-    "last_surface": "2026-11-06 05:05",
-    "days_since": 5.2,
-    "next_surface": "2026-11-11 04:05",
+    "last_surface": "2026-11-16 04:04",
+    "days_since": 1.2,
+    "next_surface": "2026-11-21 03:04",
     "next_surface_source": "nke cycle period",
-    "n_profiles": 109,
+    "n_profiles": 111,
     "track": [
       [
         71.7159,
@@ -481,6 +481,14 @@ const floatData = [
       [
         69.4886,
         -18.9649
+      ],
+      [
+        69.4886,
+        -18.9649
+      ],
+      [
+        69.3409,
+        -19.3024
       ]
     ],
     "trajectory": "assets/plots/3902677/3902677_map.png",
@@ -490,8 +498,8 @@ const floatData = [
         "src": "assets/plots/3902677/3902677_sections.png"
       },
       {
-        "label": "Profile 109  (2026-11-06)",
-        "src": "assets/plots/3902677/3902677_profile_109_2026-11-06.png"
+        "label": "Profile 111  (2026-11-16)",
+        "src": "assets/plots/3902677/3902677_profile_111_2026-11-16.png"
       }
     ],
     "notes": "sheet lists SBD+GDAC"
@@ -505,15 +513,15 @@ const floatData = [
     "region": "greenland",
     "status": "active",
     "status_note": "",
-    "latitude": 67.5067,
-    "longitude": -20.2063,
-    "location": "67.507° N, 20.206° W",
+    "latitude": 67.4842,
+    "longitude": -20.2528,
+    "location": "67.484° N, 20.253° W",
     "deployment_date": "2025-02-10",
-    "last_surface": "2026-11-08 03:17",
-    "days_since": 3.3,
-    "next_surface": "2026-11-13 02:17",
+    "last_surface": "2026-11-13 02:15",
+    "days_since": 4.3,
+    "next_surface": "2026-11-18 01:15",
     "next_surface_source": "nke cycle period",
-    "n_profiles": 130,
+    "n_profiles": 131,
     "track": [
       [
         67.3361,
@@ -1042,6 +1050,10 @@ const floatData = [
       [
         67.5067,
         -20.2063
+      ],
+      [
+        67.4842,
+        -20.2528
       ]
     ],
     "trajectory": "assets/plots/6990657/6990657_map.png",
@@ -1051,8 +1063,8 @@ const floatData = [
         "src": "assets/plots/6990657/6990657_sections.png"
       },
       {
-        "label": "Profile 130  (2026-11-08)",
-        "src": "assets/plots/6990657/6990657_profile_130_2026-11-08.png"
+        "label": "Profile 131  (2026-11-13)",
+        "src": "assets/plots/6990657/6990657_profile_131_2026-11-13.png"
       }
     ],
     "notes": "RBR CTD"
@@ -1066,15 +1078,15 @@ const floatData = [
     "region": "greenland",
     "status": "active",
     "status_note": "",
-    "latitude": 70.276,
-    "longitude": -17.8473,
-    "location": "70.276° N, 17.847° W",
+    "latitude": 69.6715,
+    "longitude": -18.6773,
+    "location": "69.671° N, 18.677° W",
     "deployment_date": "2025-10-30",
-    "last_surface": "2026-11-07 00:01",
-    "days_since": 4.4,
-    "next_surface": "2026-11-11 23:01",
+    "last_surface": "2026-11-16 21:46",
+    "days_since": 0.5,
+    "next_surface": "2026-11-21 20:46",
     "next_surface_source": "nke cycle period",
-    "n_profiles": 75,
+    "n_profiles": 77,
     "track": [
       [
         81.3966,
@@ -1387,6 +1399,14 @@ const floatData = [
       [
         70.276,
         -17.8473
+      ],
+      [
+        70.0206,
+        -18.3671
+      ],
+      [
+        69.6715,
+        -18.6773
       ]
     ],
     "trajectory": "assets/plots/7902329/7902329_map.png",
@@ -1396,8 +1416,8 @@ const floatData = [
         "src": "assets/plots/7902329/7902329_sections.png"
       },
       {
-        "label": "Profile 085  (2026-11-06)",
-        "src": "assets/plots/7902329/7902329_profile_085_2026-11-06.png"
+        "label": "Profile 087  (2026-11-16)",
+        "src": "assets/plots/7902329/7902329_profile_087_2026-11-16.png"
       }
     ],
     "notes": "ODEN2025 (North Pole deployment); pre-deployment Denmark test dropped via deploy_date"
@@ -1416,7 +1436,7 @@ const floatData = [
     "location": "77.315° N, 71.107° W",
     "deployment_date": "2025-08-13",
     "last_surface": "2026-11-02 18:18",
-    "days_since": 8.6,
+    "days_since": 14.6,
     "next_surface": "2026-11-07 17:18",
     "next_surface_source": "nke cycle period",
     "n_profiles": 70,
@@ -1735,13 +1755,13 @@ const floatData = [
     "sensors": "core",
     "region": "greenland",
     "status": "under_ice",
-    "status_note": "no transmission for 71 days — presumed under sea ice; it will report again when it can surface",
+    "status_note": "no transmission for 77 days — presumed under sea ice; it will report again when it can surface",
     "latitude": 78.6913,
     "longitude": -11.2546,
     "location": "78.691° N, 11.255° W",
     "deployment_date": "2025-08-04",
     "last_surface": "2026-09-01 04:35",
-    "days_since": 71.2,
+    "days_since": 77.2,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 81,
@@ -2104,13 +2124,13 @@ const floatData = [
     "sensors": "core",
     "region": "greenland",
     "status": "under_ice",
-    "status_note": "no transmission for 30 days — presumed under sea ice; it will report again when it can surface",
+    "status_note": "no transmission for 36 days — presumed under sea ice; it will report again when it can surface",
     "latitude": 74.3247,
     "longitude": -20.307,
     "location": "74.325° N, 20.307° W",
     "deployment_date": "2025-08-17",
     "last_surface": "2026-10-12 07:24",
-    "days_since": 30.1,
+    "days_since": 36.1,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 43,
@@ -2322,15 +2342,15 @@ const floatData = [
     "region": "denmark",
     "status": "active",
     "status_note": "",
-    "latitude": 56.4631,
-    "longitude": 19.5706,
-    "location": "56.463° N, 19.571° E",
+    "latitude": 56.4732,
+    "longitude": 19.5703,
+    "location": "56.473° N, 19.570° E",
     "deployment_date": "2024-11-25",
-    "last_surface": "2026-11-11 00:45",
+    "last_surface": "2026-11-16 22:44",
     "days_since": 0.4,
-    "next_surface": "2026-11-13 23:45",
+    "next_surface": "2026-11-19 21:44",
     "next_surface_source": "nke cycle period",
-    "n_profiles": 156,
+    "n_profiles": 158,
     "track": [
       [
         55.4992,
@@ -2959,6 +2979,14 @@ const floatData = [
       [
         56.4631,
         19.5706
+      ],
+      [
+        56.4706,
+        19.5648
+      ],
+      [
+        56.4732,
+        19.5703
       ]
     ],
     "trajectory": "assets/plots/3902607/3902607_map.png",
@@ -2968,8 +2996,8 @@ const floatData = [
         "src": "assets/plots/3902607/3902607_sections.png"
       },
       {
-        "label": "Profile 156  (2026-11-11)",
-        "src": "assets/plots/3902607/3902607_profile_156_2026-11-11.png"
+        "label": "Profile 158  (2026-11-16)",
+        "src": "assets/plots/3902607/3902607_profile_158_2026-11-16.png"
       }
     ],
     "notes": "RBR CTD; pre-deployment July-2024 fix dropped via deploy_date"
@@ -2983,15 +3011,15 @@ const floatData = [
     "region": "denmark",
     "status": "active",
     "status_note": "",
-    "latitude": 55.2286,
-    "longitude": 16.8809,
-    "location": "55.229° N, 16.881° E",
+    "latitude": 55.2327,
+    "longitude": 16.8884,
+    "location": "55.233° N, 16.888° E",
     "deployment_date": "2026-10-24",
-    "last_surface": "2026-11-08 11:34",
-    "days_since": 2.9,
-    "next_surface": "2026-11-13 08:10",
+    "last_surface": "2026-11-13 10:08",
+    "days_since": 4,
+    "next_surface": "2026-11-18 09:04",
     "next_surface_source": "median cycle interval",
-    "n_profiles": 4,
+    "n_profiles": 5,
     "track": [
       [
         55.199,
@@ -3010,8 +3038,8 @@ const floatData = [
         16.8838
       ],
       [
-        55.2286,
-        16.8809
+        55.2327,
+        16.8884
       ]
     ],
     "trajectory": "assets/plots/1902933/1902933_map.png",
@@ -3021,8 +3049,8 @@ const floatData = [
         "src": "assets/plots/1902933/1902933_sections.png"
       },
       {
-        "label": "Profile 004  (2026-11-08)",
-        "src": "assets/plots/1902933/1902933_profile_004_2026-11-08.png"
+        "label": "Profile 005  (2026-11-13)",
+        "src": "assets/plots/1902933/1902933_profile_005_2026-11-13.png"
       }
     ],
     "notes": "PFV2 python parser; Aanderaa optode SN4860 (SVU foil); Slupsk Furrow ~55.2N 16.7E; deployed 2026-10-24"
@@ -3041,7 +3069,7 @@ const floatData = [
     "location": "55.201° N, 9.753° E",
     "deployment_date": "2026-06-23",
     "last_surface": "2026-11-11 07:53",
-    "days_since": 0.1,
+    "days_since": 6,
     "next_surface": "2026-11-16 06:21",
     "next_surface_source": "median cycle interval",
     "n_profiles": 30,
@@ -3178,7 +3206,7 @@ const floatData = [
         "src": "assets/plots/Sgav_arvor2/Sgav_arvor2_profile_030_2026-11-11.png"
       }
     ],
-    "notes": "PFV2 python parser; O2 offset -0.05 mg/L (Lillebelt correction)"
+    "notes": "PFV2 python parser; O2 offset removed (0; drift-corrected downstream)"
   },
   {
     "id": "Sgav_provor",
@@ -3189,15 +3217,15 @@ const floatData = [
     "region": "denmark",
     "status": "active",
     "status_note": "",
-    "latitude": 54.9856,
-    "longitude": 10.2291,
-    "location": "54.986° N, 10.229° E",
+    "latitude": 54.9867,
+    "longitude": 10.2283,
+    "location": "54.987° N, 10.228° E",
     "deployment_date": "2026-06-24",
-    "last_surface": "2026-11-08 12:08",
-    "days_since": 2.9,
-    "next_surface": "2026-11-13 11:45",
+    "last_surface": "2026-11-16 12:35",
+    "days_since": 0.8,
+    "next_surface": "2026-11-21 12:12",
     "next_surface_source": "median cycle interval",
-    "n_profiles": 29,
+    "n_profiles": 31,
     "track": [
       [
         54.9864,
@@ -3310,6 +3338,10 @@ const floatData = [
       [
         54.9856,
         10.2291
+      ],
+      [
+        54.9867,
+        10.2283
       ]
     ],
     "trajectory": "assets/plots/Sgav_provor/Sgav_provor_map.png",
@@ -3319,8 +3351,8 @@ const floatData = [
         "src": "assets/plots/Sgav_provor/Sgav_provor_sections.png"
       },
       {
-        "label": "Profile 029  (2026-11-08)",
-        "src": "assets/plots/Sgav_provor/Sgav_provor_profile_029_2026-11-08.png"
+        "label": "Profile 031  (2026-11-16)",
+        "src": "assets/plots/Sgav_provor/Sgav_provor_profile_031_2026-11-16.png"
       }
     ],
     "notes": "BGC+RAMSES+SUNA; needs external SGAV_provor tree beside pipeline (FTP+APMTDecoder); set active=true to re-run"
@@ -3333,13 +3365,13 @@ const floatData = [
     "sensors": "bgc",
     "region": "denmark",
     "status": "inactive",
-    "status_note": "no transmission for 493 days — no next surfacing predicted",
+    "status_note": "no transmission for 499 days — no next surfacing predicted",
     "latitude": 55.1358,
     "longitude": 14.5121,
     "location": "55.136° N, 14.512° E",
     "deployment_date": "2023-11-07",
     "last_surface": "2025-07-06 10:58",
-    "days_since": 492.9,
+    "days_since": 498.9,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 190,
