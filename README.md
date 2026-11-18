@@ -87,11 +87,20 @@ Per float, `export_data.m` reads `pipeline/data/<id>/float_<id>.mat` and
 - **deployment date** — the date of *ascent profile 1*, taken from the sample table
   (`Stage == 590`, cycle ≥ 1). Using the profile record rather than the first GPS fix
   keeps pre-deployment workshop transmissions out of the date automatically.
-- **next surfacing** — for arvor floats, last surfacing plus the nke cycle period read
-  from `<id>_Float parameters Message 1.csv` (MC2, or MC3 once the cycle count passes
-  MC1) — the same rule `plot_float.m` prints on its map, and the two agree. For other
-  platforms, last surfacing plus the median interval of the last ten cycles. The field
-  records which of the two was used, and is left blank for inactive floats.
+- **next surfacing** — recomputed at every export from the float's **programmed**
+  schedule, by platform (the `platform` column of `floats_config.csv`):
+  - **arvor** (nke SBD): last surfacing + the cycle period from
+    `<id>_Float parameters Message 1.csv` (MC2, or MC3 once the cycle count passes MC1) —
+    the same rule `plot_float.m` prints on its map.
+  - **pfv2**: the float's own prediction — event `1022 THEORETICAL END OF NEXT CYCLE` in
+    the newest `*TEC2.csv`. Typically within ~1 h of the actual transmission.
+  - **provor**: the active pattern in `raw\apmt.ini`, computed by the pipeline's own
+    `provor_next_surface.m` (put on the path just for that call), so it matches what
+    `process_provor` calculates.
+  - Otherwise, as a last resort: last surfacing + the median of the last ten intervals.
+
+  `next_surface_source` in `data.js` records which was used. Left blank for floats that
+  are under ice or inactive. A prediction already in the past means the float is overdue.
 - **profiles** — ascent profiles only (distinct cycles at `Stage == 590`).
 - **status** — depends on how long since the last transmission, and on the region:
   - **Polar** floats (region `greenland`): `active` up to `ice_days` (**15**); then

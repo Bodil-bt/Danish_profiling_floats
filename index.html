@@ -184,7 +184,7 @@
       <table>
         <thead>
           <tr>
-            <th>Float</th><th>WMO</th><th>Location</th><th>Deployed</th>
+            <th>Float</th><th>WMO</th><th>Location</th><th>Deployed</th><th>Last surfacing</th>
             <th>Next surfacing</th><th class="num">Profiles</th><th>Status</th>
           </tr>
         </thead>
@@ -285,6 +285,7 @@
     tr.appendChild(el("td", "muted", dash(f.wmo)));
     tr.appendChild(el("td", null, dash(f.location)));
     tr.appendChild(el("td", null, dash(f.deployment_date)));
+    tr.appendChild(el("td", null, dash(f.last_surface)));
     tr.appendChild(el("td", null, dash(f.next_surface)));
     tr.appendChild(el("td", "num", f.n_profiles));
 

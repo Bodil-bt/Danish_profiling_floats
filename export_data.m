@@ -312,11 +312,16 @@ end
 
 % =========================================================================
 function [ns, src] = next_surface(float_dir, id, row, PD, t)
-% Predicted next surfacing, as a 'yyyy-mm-dd HH:MM' string ('' if unknown).
-%   arvor : last surfacing + the nke cycle period (same rule plot_float uses)
-%   other : last surfacing + the median interval between recent surfacings
+% Predicted next surfacing, as a 'yyyy-mm-dd HH:MM' string ('' if unknown). The
+% float's PROGRAMMED schedule is used wherever it can be read:
+%   arvor  : last surfacing + the nke cycle period (same rule plot_float uses)
+%   pfv2   : the float's own "THEORETICAL END OF NEXT CYCLE" (TEC2 event 1022)
+%   provor : the active pattern in apmt.ini, via the pipeline's own
+%            provor_next_surface -- the same computation process_provor makes
+% and only otherwise last surfacing + the median of recent surfacing intervals.
 ns = '';  src = '';
-imei = char(getfield_or(row, 'imei', ''));
+imei     = char(getfield_or(row, 'imei', ''));
+platform = lower(char(getfield_or(row, 'platform', '')));
 
 per = nke_cycle_hours(float_dir, id, imei, PD);
 if ~isnan(per)
@@ -324,12 +329,79 @@ if ~isnan(per)
     src = 'nke cycle period';
     return
 end
+if strcmp(platform, 'pfv2')
+    tn = pfv2_next_cycle_end(float_dir);
+    if ~isnat(tn) && tn > t(end)          % must belong to the cycle after the last one
+        ns = datestr(tn, 'yyyy-mm-dd HH:MM');
+        src = 'float-reported end of next cycle';
+        return
+    end
+end
+if strcmp(platform, 'provor')
+    last_surf = t(end);
+    if ismember('DatetimeSurf', PD.Properties.VariableNames)
+        last_surf = max(PD.DatetimeSurf, [], 'omitnan');   % what process_provor uses
+    end
+    tn = provor_schedule(float_dir, last_surf);
+    if ~isnat(tn)
+        ns = datestr(tn, 'yyyy-mm-dd HH:MM');
+        src = 'apmt.ini schedule';
+        return
+    end
+end
 if numel(t) >= 3
     dt = median(hours(diff(t(max(1,end-9):end))), 'omitnan');
     if isfinite(dt) && dt > 0
         ns = datestr(t(end) + hours(dt), 'yyyy-mm-dd HH:MM');
         src = 'median cycle interval';
     end
+end
+end
+
+function tn = pfv2_next_cycle_end(float_dir)
+% A PFV2 float reports its own schedule: each TEC2 technical file carries event
+% 1022 "THEORETICAL END OF NEXT CYCLE" (an absolute UTC time). Taken from the
+% newest TEC2 that has it. File names start yymmddHHMMSS, so name order is time
+% order. NaT if there is none.
+tn = NaT;
+d = dir(fullfile(float_dir, 'raw', '*TEC2.csv'));
+if isempty(d), return; end
+[~, o] = sort({d.name});
+d = d(fliplr(o));
+for i = 1:numel(d)
+    try
+        L = readlines(fullfile(d(i).folder, d(i).name));
+    catch
+        continue
+    end
+    hit = L(contains(L, 'THEORETICAL END OF NEXT CYCLE'));
+    if isempty(hit), continue; end
+    tok = regexp(hit(1), '\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}', 'match', 'once');
+    if strlength(tok) > 0
+        tn = datetime(tok, 'InputFormat', 'yyyy-MM-dd HH:mm:ss');
+        return
+    end
+end
+end
+
+function tn = provor_schedule(float_dir, last_surf)
+% The provor's programmed schedule (active pattern in raw\apmt.ini), computed by
+% the pipeline's own provor_next_surface rather than a copy of it. The pipeline's
+% provor folder is put on the path only for this call, and only if it is not
+% already there (so an interactive session's path is left as it was). NaT if the
+% .ini or the helper is missing.
+tn = NaT;
+ini  = fullfile(float_dir, 'raw', 'apmt.ini');
+fdir = fullfile(fileparts(fileparts(float_dir)), 'scripts', 'provor');
+if ~isfile(ini) || ~isfile(fullfile(fdir, 'provor_next_surface.m')), return; end
+if ~contains([pathsep path pathsep], [pathsep fdir pathsep])
+    addpath(fdir, '-end');
+    c = onCleanup(@() rmpath(fdir)); %#ok<NASGU>
+end
+try
+    tn = provor_next_surface(ini, last_surf);
+catch
+    tn = NaT;
 end
 end
 

@@ -16,7 +16,7 @@
 //   graphs        [{label, src}, ...] figures for the fold-out
 //   notes         free text from floats_config.csv
 
-const floatUpdated = "2026-11-18 11:19";
+const floatUpdated = "2026-11-18 13:07";
 
 const floatData = [
   {
@@ -33,7 +33,7 @@ const floatData = [
     "location": "69.341° N, 19.302° W",
     "deployment_date": "2025-05-27",
     "last_surface": "2026-11-16 04:04",
-    "days_since": 2.3,
+    "days_since": 2.4,
     "next_surface": "2026-11-21 03:04",
     "next_surface_source": "nke cycle period",
     "n_profiles": 111,
@@ -518,7 +518,7 @@ const floatData = [
     "location": "67.473° N, 20.267° W",
     "deployment_date": "2025-02-10",
     "last_surface": "2026-11-18 01:05",
-    "days_since": 0.4,
+    "days_since": 0.5,
     "next_surface": "2026-11-23 00:05",
     "next_surface_source": "nke cycle period",
     "n_profiles": 132,
@@ -1440,7 +1440,7 @@ const floatData = [
     "location": "78.691° N, 11.255° W",
     "deployment_date": "2025-08-04",
     "last_surface": "2026-09-01 04:35",
-    "days_since": 78.3,
+    "days_since": 78.4,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 81,
@@ -1809,7 +1809,7 @@ const floatData = [
     "location": "77.315° N, 71.107° W",
     "deployment_date": "2025-08-13",
     "last_surface": "2026-11-02 18:18",
-    "days_since": 15.7,
+    "days_since": 15.8,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 70,
@@ -2351,7 +2351,7 @@ const floatData = [
     "location": "56.473° N, 19.570° E",
     "deployment_date": "2024-11-25",
     "last_surface": "2026-11-16 22:44",
-    "days_since": 1.5,
+    "days_since": 1.6,
     "next_surface": "2026-11-19 21:44",
     "next_surface_source": "nke cycle period",
     "n_profiles": 158,
@@ -3020,9 +3020,9 @@ const floatData = [
     "location": "55.250° N, 17.040° E",
     "deployment_date": "2026-10-24",
     "last_surface": "2026-11-18 09:11",
-    "days_since": 0.1,
-    "next_surface": "2026-11-23 08:13",
-    "next_surface_source": "median cycle interval",
+    "days_since": 0.2,
+    "next_surface": "2026-11-23 07:00",
+    "next_surface_source": "float-reported end of next cycle",
     "n_profiles": 6,
     "track": [
       [
@@ -3066,7 +3066,7 @@ const floatData = [
   {
     "id": "Sgav_arvor2",
     "wmo": "Sgav_arvor2",
-    "name": "SGAV Arvor2 (Syd Fyn)",
+    "name": "SGAV Arvor2 (Lillebelt)",
     "platform": "pfv2",
     "sensors": "core_o2",
     "region": "denmark",
@@ -3077,9 +3077,9 @@ const floatData = [
     "location": "55.201° N, 9.753° E",
     "deployment_date": "2026-06-23",
     "last_surface": "2026-11-11 07:53",
-    "days_since": 7.1,
-    "next_surface": "2026-11-16 06:21",
-    "next_surface_source": "median cycle interval",
+    "days_since": 7.2,
+    "next_surface": "2026-11-15 06:00",
+    "next_surface_source": "float-reported end of next cycle",
     "n_profiles": 30,
     "track": [
       [
@@ -3230,9 +3230,9 @@ const floatData = [
     "location": "54.987° N, 10.228° E",
     "deployment_date": "2026-06-24",
     "last_surface": "2026-11-16 12:35",
-    "days_since": 1.9,
-    "next_surface": "2026-11-21 12:12",
-    "next_surface_source": "median cycle interval",
+    "days_since": 2,
+    "next_surface": "2026-11-20 11:00",
+    "next_surface_source": "apmt.ini schedule",
     "n_profiles": 31,
     "track": [
       [
@@ -3379,7 +3379,7 @@ const floatData = [
     "location": "55.136° N, 14.512° E",
     "deployment_date": "2023-11-07",
     "last_surface": "2025-07-06 10:58",
-    "days_since": 500,
+    "days_since": 500.1,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 190,
