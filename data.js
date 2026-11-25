@@ -4,8 +4,9 @@
 // Each entry:
 //   id, wmo, name, platform, sensors   identity (id = pipeline/data folder)
 //   region        'greenland' | 'denmark'   -> which map the marker goes on
-//   status        'active' | 'under_ice' | 'inactive' -> marker colour + badge
-//                 (under_ice = a polar/greenland float that has gone quiet)
+//   status        'active' | 'under_ice' | 'inactive' | 'recovered' -> colour + badge
+//                 (under_ice = a polar/greenland float that has gone quiet;
+//                  recovered = listed in float-site/recovered.csv)
 //   status_note   why it is not active ('' when active)
 //   latitude, longitude, location          latest fix
 //   deployment_date, last_surface, days_since, next_surface
@@ -16,7 +17,7 @@
 //   graphs        [{label, src}, ...] figures for the fold-out
 //   notes         free text from floats_config.csv
 
-const floatUpdated = "2026-11-23 10:44";
+const floatUpdated = "2026-11-25 16:06";
 
 const floatData = [
   {
@@ -33,7 +34,7 @@ const floatData = [
     "location": "69.286° N, 19.512° W",
     "deployment_date": "2025-05-27",
     "last_surface": "2026-11-21 03:10",
-    "days_since": 2.3,
+    "days_since": 4.5,
     "next_surface": "2026-11-26 02:10",
     "next_surface_source": "nke cycle period",
     "n_profiles": 112,
@@ -522,7 +523,7 @@ const floatData = [
     "location": "67.467° N, 20.257° W",
     "deployment_date": "2025-02-10",
     "last_surface": "2026-11-23 00:06",
-    "days_since": 0.4,
+    "days_since": 2.7,
     "next_surface": "2026-11-27 23:06",
     "next_surface_source": "nke cycle period",
     "n_profiles": 133,
@@ -1095,7 +1096,7 @@ const floatData = [
     "location": "69.671° N, 18.677° W",
     "deployment_date": "2025-10-30",
     "last_surface": "2026-11-16 21:46",
-    "days_since": 6.5,
+    "days_since": 8.8,
     "next_surface": "2026-11-21 20:46",
     "next_surface_source": "nke cycle period",
     "n_profiles": 77,
@@ -1442,13 +1443,13 @@ const floatData = [
     "sensors": "core",
     "region": "greenland",
     "status": "under_ice",
-    "status_note": "no transmission for 83 days — presumed under sea ice; it will report again when it can surface",
+    "status_note": "no transmission for 85 days — presumed under sea ice; it will report again when it can surface",
     "latitude": 78.6913,
     "longitude": -11.2546,
     "location": "78.691° N, 11.255° W",
     "deployment_date": "2025-08-04",
     "last_surface": "2026-09-01 04:35",
-    "days_since": 83.3,
+    "days_since": 85.5,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 81,
@@ -1811,13 +1812,13 @@ const floatData = [
     "sensors": "core",
     "region": "greenland",
     "status": "under_ice",
-    "status_note": "no transmission for 21 days — presumed under sea ice; it will report again when it can surface",
+    "status_note": "no transmission for 23 days — presumed under sea ice; it will report again when it can surface",
     "latitude": 77.3145,
     "longitude": -71.1067,
     "location": "77.315° N, 71.107° W",
     "deployment_date": "2025-08-13",
     "last_surface": "2026-11-02 18:18",
-    "days_since": 20.7,
+    "days_since": 22.9,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 70,
@@ -2136,13 +2137,13 @@ const floatData = [
     "sensors": "core",
     "region": "greenland",
     "status": "under_ice",
-    "status_note": "no transmission for 42 days — presumed under sea ice; it will report again when it can surface",
+    "status_note": "no transmission for 44 days — presumed under sea ice; it will report again when it can surface",
     "latitude": 74.3247,
     "longitude": -20.307,
     "location": "74.325° N, 20.307° W",
     "deployment_date": "2025-08-17",
     "last_surface": "2026-10-12 07:24",
-    "days_since": 42.1,
+    "days_since": 44.4,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 43,
@@ -2359,7 +2360,7 @@ const floatData = [
     "location": "56.527° N, 19.635° E",
     "deployment_date": "2024-11-25",
     "last_surface": "2026-11-22 20:50",
-    "days_since": 0.6,
+    "days_since": 2.8,
     "next_surface": "2026-11-25 19:50",
     "next_surface_source": "nke cycle period",
     "n_profiles": 160,
@@ -3036,7 +3037,7 @@ const floatData = [
     "location": "55.257° N, 17.091° E",
     "deployment_date": "2026-10-24",
     "last_surface": "2026-11-23 08:08",
-    "days_since": 0.1,
+    "days_since": 2.3,
     "next_surface": "2026-11-28 06:00",
     "next_surface_source": "float-reported end of next cycle",
     "n_profiles": 7,
@@ -3084,320 +3085,6 @@ const floatData = [
     "notes": "PFV2 python parser; Aanderaa optode SN4860 (SVU foil); Slupsk Furrow ~55.2N 16.7E; deployed 2026-10-24"
   },
   {
-    "id": "Sgav_arvor2",
-    "wmo": "Sgav_arvor2",
-    "name": "SGAV Arvor2 (Lillebelt)",
-    "platform": "pfv2",
-    "sensors": "core_o2",
-    "region": "denmark",
-    "status": "active",
-    "status_note": "",
-    "latitude": 55.2012,
-    "longitude": 9.7531,
-    "location": "55.201° N, 9.753° E",
-    "deployment_date": "2026-06-23",
-    "last_surface": "2026-11-23 04:37",
-    "days_since": 0.3,
-    "next_surface": "2026-11-27 03:00",
-    "next_surface_source": "float-reported end of next cycle",
-    "n_profiles": 33,
-    "track": [
-      [
-        55.2012,
-        9.7528
-      ],
-      [
-        55.2006,
-        9.7524
-      ],
-      [
-        55.2006,
-        9.7524
-      ],
-      [
-        55.201,
-        9.7522
-      ],
-      [
-        55.201,
-        9.7522
-      ],
-      [
-        55.2005,
-        9.753
-      ],
-      [
-        55.2007,
-        9.7523
-      ],
-      [
-        55.2005,
-        9.7528
-      ],
-      [
-        55.2005,
-        9.7528
-      ],
-      [
-        55.2005,
-        9.7525
-      ],
-      [
-        55.2008,
-        9.7527
-      ],
-      [
-        55.2006,
-        9.7525
-      ],
-      [
-        55.2008,
-        9.7524
-      ],
-      [
-        55.2005,
-        9.7527
-      ],
-      [
-        55.2005,
-        9.7527
-      ],
-      [
-        55.2006,
-        9.7527
-      ],
-      [
-        55.2006,
-        9.7527
-      ],
-      [
-        55.2011,
-        9.7524
-      ],
-      [
-        55.2011,
-        9.7524
-      ],
-      [
-        55.2011,
-        9.7524
-      ],
-      [
-        55.2011,
-        9.7534
-      ],
-      [
-        55.2011,
-        9.7534
-      ],
-      [
-        55.2007,
-        9.7531
-      ],
-      [
-        55.201,
-        9.7523
-      ],
-      [
-        55.201,
-        9.7523
-      ],
-      [
-        55.2007,
-        9.7525
-      ],
-      [
-        55.2007,
-        9.7525
-      ],
-      [
-        55.2007,
-        9.7523
-      ],
-      [
-        55.2012,
-        9.753
-      ],
-      [
-        55.2012,
-        9.753
-      ],
-      [
-        55.2012,
-        9.753
-      ],
-      [
-        55.2012,
-        9.7531
-      ],
-      [
-        55.2012,
-        9.7531
-      ]
-    ],
-    "trajectory": "assets/plots/Sgav_arvor2/Sgav_arvor2_map.png",
-    "graphs": [
-      {
-        "label": "Depth vs time",
-        "src": "assets/plots/Sgav_arvor2/Sgav_arvor2_sections.png"
-      },
-      {
-        "label": "Profile 033  (2026-11-23)",
-        "src": "assets/plots/Sgav_arvor2/Sgav_arvor2_profile_033_2026-11-23.png"
-      }
-    ],
-    "notes": "PFV2 python parser; O2 offset removed (0; drift-corrected downstream)"
-  },
-  {
-    "id": "Sgav_provor",
-    "wmo": "Sgav_provor",
-    "name": "SGAV Provor (Aeroe)",
-    "platform": "provor",
-    "sensors": "bgc",
-    "region": "denmark",
-    "status": "active",
-    "status_note": "",
-    "latitude": 54.9867,
-    "longitude": 10.2283,
-    "location": "54.987° N, 10.228° E",
-    "deployment_date": "2026-06-24",
-    "last_surface": "2026-11-16 12:35",
-    "days_since": 6.9,
-    "next_surface": "2026-11-20 11:00",
-    "next_surface_source": "apmt.ini schedule",
-    "n_profiles": 31,
-    "track": [
-      [
-        54.9864,
-        10.2294
-      ],
-      [
-        54.9866,
-        10.2288
-      ],
-      [
-        54.9866,
-        10.2284
-      ],
-      [
-        54.9864,
-        10.2279
-      ],
-      [
-        54.9863,
-        10.2278
-      ],
-      [
-        54.9861,
-        10.2277
-      ],
-      [
-        54.986,
-        10.2295
-      ],
-      [
-        54.9865,
-        10.2275
-      ],
-      [
-        54.9865,
-        10.2274
-      ],
-      [
-        54.9861,
-        10.2278
-      ],
-      [
-        54.9863,
-        10.2273
-      ],
-      [
-        54.9867,
-        10.2279
-      ],
-      [
-        54.9863,
-        10.2286
-      ],
-      [
-        54.986,
-        10.2292
-      ],
-      [
-        54.9866,
-        10.2289
-      ],
-      [
-        54.9867,
-        10.2279
-      ],
-      [
-        54.9861,
-        10.2294
-      ],
-      [
-        54.9867,
-        10.2283
-      ],
-      [
-        54.9867,
-        10.2286
-      ],
-      [
-        54.9862,
-        10.2284
-      ],
-      [
-        54.9865,
-        10.229
-      ],
-      [
-        54.9865,
-        10.2275
-      ],
-      [
-        54.9865,
-        10.2286
-      ],
-      [
-        54.9866,
-        10.2288
-      ],
-      [
-        54.9865,
-        10.2292
-      ],
-      [
-        54.9867,
-        10.228
-      ],
-      [
-        54.9859,
-        10.2273
-      ],
-      [
-        54.9856,
-        10.2291
-      ],
-      [
-        54.9867,
-        10.2283
-      ]
-    ],
-    "trajectory": "assets/plots/Sgav_provor/Sgav_provor_map.png",
-    "graphs": [
-      {
-        "label": "Depth vs time",
-        "src": "assets/plots/Sgav_provor/Sgav_provor_sections.png"
-      },
-      {
-        "label": "Profile 031  (2026-11-16)",
-        "src": "assets/plots/Sgav_provor/Sgav_provor_profile_031_2026-11-16.png"
-      }
-    ],
-    "notes": "BGC+RAMSES+SUNA; needs external SGAV_provor tree beside pipeline (FTP+APMTDecoder); set active=true to re-run"
-  },
-  {
     "id": "4903784",
     "wmo": "4903784",
     "name": "Baltic Provor",
@@ -3405,13 +3092,13 @@ const floatData = [
     "sensors": "bgc",
     "region": "denmark",
     "status": "inactive",
-    "status_note": "no transmission for 505 days — no next surfacing predicted",
+    "status_note": "no transmission for 507 days — no next surfacing predicted",
     "latitude": 55.1358,
     "longitude": 14.5121,
     "location": "55.136° N, 14.512° E",
     "deployment_date": "2023-11-07",
     "last_surface": "2025-07-06 10:58",
-    "days_since": 505,
+    "days_since": 507.2,
     "next_surface": "",
     "next_surface_source": "",
     "n_profiles": 190,
@@ -4625,6 +4312,328 @@ const floatData = [
       }
     ],
     "notes": "retired; not processed by the pipeline. Enriched collaborator CSV (190/290/590 + O2/Chla/BScat + dark-corrected irradiance/Kd) built from the legacy DTU product (data/4903784/float_4903784.mat) via scripts/share/export_baltic_provor_share.m"
+  },
+  {
+    "id": "Sgav_arvor2",
+    "wmo": "Sgav_arvor2",
+    "name": "SGAV Arvor2 (Lillebelt)",
+    "platform": "pfv2",
+    "sensors": "core_o2",
+    "region": "denmark",
+    "status": "recovered",
+    "status_note": "recovered — no longer deployed",
+    "latitude": 55.2012,
+    "longitude": 9.7531,
+    "location": "55.201° N, 9.753° E",
+    "deployment_date": "2026-06-23",
+    "last_surface": "2026-11-23 04:37",
+    "days_since": 2.5,
+    "next_surface": "",
+    "next_surface_source": "",
+    "n_profiles": 33,
+    "track": [
+      [
+        55.2012,
+        9.7528
+      ],
+      [
+        55.2006,
+        9.7524
+      ],
+      [
+        55.2006,
+        9.7524
+      ],
+      [
+        55.201,
+        9.7522
+      ],
+      [
+        55.201,
+        9.7522
+      ],
+      [
+        55.2005,
+        9.753
+      ],
+      [
+        55.2007,
+        9.7523
+      ],
+      [
+        55.2005,
+        9.7528
+      ],
+      [
+        55.2005,
+        9.7528
+      ],
+      [
+        55.2005,
+        9.7525
+      ],
+      [
+        55.2008,
+        9.7527
+      ],
+      [
+        55.2006,
+        9.7525
+      ],
+      [
+        55.2008,
+        9.7524
+      ],
+      [
+        55.2005,
+        9.7527
+      ],
+      [
+        55.2005,
+        9.7527
+      ],
+      [
+        55.2006,
+        9.7527
+      ],
+      [
+        55.2006,
+        9.7527
+      ],
+      [
+        55.2011,
+        9.7524
+      ],
+      [
+        55.2011,
+        9.7524
+      ],
+      [
+        55.2011,
+        9.7524
+      ],
+      [
+        55.2011,
+        9.7534
+      ],
+      [
+        55.2011,
+        9.7534
+      ],
+      [
+        55.2007,
+        9.7531
+      ],
+      [
+        55.201,
+        9.7523
+      ],
+      [
+        55.201,
+        9.7523
+      ],
+      [
+        55.2007,
+        9.7525
+      ],
+      [
+        55.2007,
+        9.7525
+      ],
+      [
+        55.2007,
+        9.7523
+      ],
+      [
+        55.2012,
+        9.753
+      ],
+      [
+        55.2012,
+        9.753
+      ],
+      [
+        55.2012,
+        9.753
+      ],
+      [
+        55.2012,
+        9.7531
+      ],
+      [
+        55.2012,
+        9.7531
+      ]
+    ],
+    "trajectory": "assets/plots/Sgav_arvor2/Sgav_arvor2_map.png",
+    "graphs": [
+      {
+        "label": "Depth vs time",
+        "src": "assets/plots/Sgav_arvor2/Sgav_arvor2_sections.png"
+      },
+      {
+        "label": "Profile 033  (2026-11-23)",
+        "src": "assets/plots/Sgav_arvor2/Sgav_arvor2_profile_033_2026-11-23.png"
+      }
+    ],
+    "notes": "PFV2 python parser; O2 offset removed (0; drift-corrected downstream)"
+  },
+  {
+    "id": "Sgav_provor",
+    "wmo": "Sgav_provor",
+    "name": "SGAV Provor (Aeroe)",
+    "platform": "provor",
+    "sensors": "bgc",
+    "region": "denmark",
+    "status": "recovered",
+    "status_note": "recovered — no longer deployed",
+    "latitude": 54.9843,
+    "longitude": 10.2287,
+    "location": "54.984° N, 10.229° E",
+    "deployment_date": "2026-06-24",
+    "last_surface": "2026-11-24 11:52",
+    "days_since": 1.2,
+    "next_surface": "",
+    "next_surface_source": "",
+    "n_profiles": 33,
+    "track": [
+      [
+        54.9864,
+        10.2294
+      ],
+      [
+        54.9866,
+        10.2288
+      ],
+      [
+        54.9866,
+        10.2284
+      ],
+      [
+        54.9864,
+        10.2279
+      ],
+      [
+        54.9863,
+        10.2278
+      ],
+      [
+        54.9861,
+        10.2277
+      ],
+      [
+        54.986,
+        10.2295
+      ],
+      [
+        54.9865,
+        10.2275
+      ],
+      [
+        54.9865,
+        10.2274
+      ],
+      [
+        54.9861,
+        10.2278
+      ],
+      [
+        54.9863,
+        10.2273
+      ],
+      [
+        54.9867,
+        10.2279
+      ],
+      [
+        54.9863,
+        10.2286
+      ],
+      [
+        54.986,
+        10.2292
+      ],
+      [
+        54.9866,
+        10.2289
+      ],
+      [
+        54.9867,
+        10.2279
+      ],
+      [
+        54.9861,
+        10.2294
+      ],
+      [
+        54.9867,
+        10.2283
+      ],
+      [
+        54.9867,
+        10.2286
+      ],
+      [
+        54.9862,
+        10.2284
+      ],
+      [
+        54.9865,
+        10.229
+      ],
+      [
+        54.9865,
+        10.2275
+      ],
+      [
+        54.9865,
+        10.2286
+      ],
+      [
+        54.9866,
+        10.2288
+      ],
+      [
+        54.9865,
+        10.2292
+      ],
+      [
+        54.9867,
+        10.228
+      ],
+      [
+        54.9859,
+        10.2273
+      ],
+      [
+        54.9856,
+        10.2291
+      ],
+      [
+        54.9867,
+        10.2283
+      ],
+      [
+        54.9861,
+        10.2282
+      ],
+      [
+        54.9843,
+        10.2287
+      ]
+    ],
+    "trajectory": "assets/plots/Sgav_provor/Sgav_provor_map.png",
+    "graphs": [
+      {
+        "label": "Depth vs time",
+        "src": "assets/plots/Sgav_provor/Sgav_provor_sections.png"
+      },
+      {
+        "label": "Profile 033  (2026-11-24)",
+        "src": "assets/plots/Sgav_provor/Sgav_provor_profile_033_2026-11-24.png"
+      }
+    ],
+    "notes": "BGC+RAMSES+SUNA; needs external SGAV_provor tree beside pipeline (FTP+APMTDecoder); set active=true to re-run"
   }
 ];
 

@@ -36,6 +36,7 @@ if ~isfolder(data_root)
 end
 
 cfg = read_config(cfgfile);
+opt.recovered = read_recovered(fullfile(site_dir, 'recovered.csv'));
 ids = list_float_ids(data_root);
 
 fprintf('\n===== float-site: export_data =====\n');
@@ -99,6 +100,24 @@ cfg = cfg(cfg.wmo ~= "" & ~ismissing(cfg.wmo), :);
 end
 
 % =========================================================================
+function R = read_recovered(f)
+% Floats taken out of the water (float-site\recovered.csv: id, recovery_date,
+% note -- the last two optional). Kept here rather than in the pipeline registry
+% because it only changes how the website labels the float. Empty if absent.
+R = table(strings(0,1), strings(0,1), strings(0,1), ...
+          'VariableNames', {'id', 'recovery_date', 'note'});
+if ~isfile(f), return; end
+o = detectImportOptions(f, 'Delimiter', ',', 'TextType', 'string');
+o = setvartype(o, o.VariableNames, 'string');
+T = readtable(f, o);
+for v = ["recovery_date", "note"]
+    if ~ismember(v, string(T.Properties.VariableNames)), T.(v) = strings(height(T),1); end
+end
+T.id = strip(T.id);
+R = T(T.id ~= "" & ~ismissing(T.id), {'id', 'recovery_date', 'note'});
+end
+
+% =========================================================================
 function ids = list_float_ids(data_root)
 % Every pipeline/data subfolder that holds a saved float_*.mat.
 skip = {'_sbd_staging', 'share_out'};
@@ -153,7 +172,22 @@ region = region_of(lat(end), lon(end), row);
 polar  = strcmp(region, 'greenland');
 % Polar floats get their own, shorter quiet threshold (ice_days): going silent
 % there usually means sea ice, and should show promptly. Elsewhere, stale_days.
-if (polar && days_since <= opt.ice_days) || (~polar && days_since <= opt.stale_days)
+% A float listed in recovered.csv is "recovered" whatever its transmissions say:
+% recovery cannot be inferred from the data, and a recovered float may still
+% transmit from the deck or the lab for a while.
+rec = opt.recovered(strcmpi(opt.recovered.id, string(id)), :);
+if ~isempty(rec)
+    status = 'recovered';
+    status_note = 'recovered — no longer deployed';
+    if ~ismissing(rec.recovery_date(1)) && strlength(strip(rec.recovery_date(1))) > 0
+        status_note = sprintf('recovered on %s — no longer deployed', ...
+                              strip(rec.recovery_date(1)));
+    end
+    if ~ismissing(rec.note(1)) && strlength(strip(rec.note(1))) > 0
+        status_note = sprintf('%s. %s', status_note, strip(rec.note(1)));
+    end
+    ns = '';  ns_src = '';
+elseif (polar && days_since <= opt.ice_days) || (~polar && days_since <= opt.stale_days)
     status = 'active';
     status_note = '';
 elseif polar && days_since <= opt.ice_max_days
@@ -550,8 +584,9 @@ L(end+1) = "//";
 L(end+1) = "// Each entry:";
 L(end+1) = "//   id, wmo, name, platform, sensors   identity (id = pipeline/data folder)";
 L(end+1) = "//   region        'greenland' | 'denmark'   -> which map the marker goes on";
-L(end+1) = "//   status        'active' | 'under_ice' | 'inactive' -> marker colour + badge";
-L(end+1) = "//                 (under_ice = a polar/greenland float that has gone quiet)";
+L(end+1) = "//   status        'active' | 'under_ice' | 'inactive' | 'recovered' -> colour + badge";
+L(end+1) = "//                 (under_ice = a polar/greenland float that has gone quiet;";
+L(end+1) = "//                  recovered = listed in float-site/recovered.csv)";
 L(end+1) = "//   status_note   why it is not active ('' when active)";
 L(end+1) = "//   latitude, longitude, location          latest fix";
 L(end+1) = "//   deployment_date, last_surface, days_since, next_surface";

@@ -49,6 +49,7 @@
   .badge.active{background:var(--ok-soft); color:var(--ok)}
   .badge.inactive{background:var(--off-soft); color:var(--off)}
   .badge.under_ice{background:#e1eef8; color:#2a6fa8}
+  .badge.recovered{background:#efe9f6; color:#6f4fa3}
   .muted{color:var(--ink-soft)}
 
   /* ---- maps ---- */
@@ -64,6 +65,7 @@
   .dot{display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:6px; border:2px solid #fff; box-shadow:0 0 0 1px rgba(0,0,0,.25)}
   .dot.active{background:var(--ok)} .dot.inactive{background:var(--off)}
   .dot.under_ice{background:#2a6fa8}
+  .dot.recovered{background:#6f4fa3}
   .maperr{padding:26px 16px; color:var(--ink-soft); font-size:.9rem}
 
   /* ---- accordions ---- */
@@ -199,19 +201,15 @@
       <div class="mapcard" id="card-greenland">
         <h3>Greenland <small id="count-greenland"></small></h3>
         <div class="map" id="map-greenland"></div>
-        <div class="legend">
-          <span><i class="dot active"></i>active</span>
-          <span><i class="dot under_ice"></i>under ice</span>
-          <span><i class="dot inactive"></i>inactive</span>
+        <!-- status entries are added by the script: only those present on this map -->
+        <div class="legend" id="legend-greenland">
           <span class="muted">line = drift track</span>
         </div>
       </div>
       <div class="mapcard" id="card-denmark">
         <h3>Denmark &amp; the Baltic Sea <small id="count-denmark"></small></h3>
         <div class="map" id="map-denmark"></div>
-        <div class="legend">
-          <span><i class="dot active"></i>active</span>
-          <span><i class="dot inactive"></i>inactive</span>
+        <div class="legend" id="legend-denmark">
           <span class="muted">line = drift track</span>
         </div>
       </div>
@@ -243,9 +241,11 @@
   "use strict";
 
   var floats = (typeof floatData !== "undefined" && Array.isArray(floatData)) ? floatData : [];
-  var COLOR = { active: "#1a7f4b", under_ice: "#2a6fa8", inactive: "#8b959d" };
-  // data.js uses machine ids; this is what the reader sees
-  var STATUS_LABEL = { active: "active", under_ice: "under ice", inactive: "inactive" };
+  var COLOR = { active: "#1a7f4b", under_ice: "#2a6fa8", inactive: "#8b959d",
+                recovered: "#6f4fa3" };
+  // data.js uses machine ids; this is what the reader sees (also the legend order)
+  var STATUS_LABEL = { active: "active", under_ice: "under ice", inactive: "inactive",
+                       recovered: "recovered" };
   function statusLabel(s) { return STATUS_LABEL[s] || s; }
   var REGIONS = [
     { key: "greenland", el: "map-greenland", card: "card-greenland",
@@ -504,6 +504,17 @@
 
     if (!here.length) { card.style.display = "none"; return; }
     countEl.textContent = "· " + here.length + " float" + (here.length === 1 ? "" : "s");
+
+    // legend: one entry per status actually present on this map
+    var legend = document.getElementById("legend-" + r.key);
+    var first = legend ? legend.firstChild : null;
+    Object.keys(STATUS_LABEL).forEach(function (st) {
+      if (!legend || !here.some(function (f) { return f.status === st; })) return;
+      var item = el("span");
+      item.appendChild(el("i", "dot " + st));
+      item.appendChild(document.createTextNode(statusLabel(st)));
+      legend.insertBefore(item, first);
+    });
 
     var host = document.getElementById(r.el);
     if (typeof L === "undefined") {

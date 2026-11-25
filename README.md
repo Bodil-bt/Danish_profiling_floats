@@ -26,6 +26,7 @@ float-site/
   data.js               const floatData = [...]  — regenerated weekly
   assets/plots/<id>/    the PNGs shown in the fold-outs — regenerated weekly
   coastline.js          vector land for the polar map (generated ONCE, not weekly)
+  recovered.csv         floats taken out of the water -> status "recovered" (hand-edited)
   make_plots.py         pipeline figures  ->  assets/plots/
   export_data.m         pipeline .mat     ->  data.js
   export_coastline.m    m_map GSHHS       ->  coastline.js
@@ -108,6 +109,11 @@ Per float, `export_data.m` reads `pipeline/data/<id>/float_<id>.mat` and
     ice clears, so its next-surfacing prediction is blanked; after `ice_max_days`
     (**365**) it is presumed lost and becomes `inactive`.
   - **All other** floats: `active` up to `stale_days` (**45**), then `inactive`.
+  - **Recovered** floats: any float listed in **`float-site/recovered.csv`** is shown as
+    `recovered` whatever its transmissions say — recovery can't be told from the data,
+    and a recovered float may keep transmitting from the deck or the lab. Columns:
+    `id` (the pipeline/data folder name), and optional `recovery_date` and `note`,
+    which go into the badge's hover text. Delete the row if the float is redeployed.
 
   All three are options, e.g. `export_data('ice_days', 20, 'ice_max_days', Inf)`.
   This is deliberately derived from the data, not from the config's `active` column:
